@@ -20,11 +20,13 @@ public:
 	int ALAP_Time;
 	int ASAP_Time;
 	int width;
+	int latency; //Latency from the command line arg.
 	double selfForce;
 	double predForce;
 	double succForce;
 	double totalForce;
 	int schedule;
+	int operationType;   //1 for adder/sub, 2 for mult, 3 for logic/logical, 4 for divider/modulo
 	string operation;
 	vector <double> probability;
 	vector <Node*> predNodes;
