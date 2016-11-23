@@ -12,12 +12,23 @@
 #include <algorithm>
 
 
-
 class Node{
 
 public:
 
-	double path;
+	int ALAP_Time;
+	int ASAP_Time;
+	int width;
+	double probability;
+	double selfForce;
+	double predForce;
+	double succForce;
+	double totalForce;
+	int schedule;
+	string operation;
+	vector<Node*> predNodes;
+	vector<Node*> succNodes;
+
 	std::string name;
 
 	Node(double _path, std::string _name);
