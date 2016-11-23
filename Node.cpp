@@ -10,8 +10,7 @@ using namespace std;
 
  Node::Node(double _path, string _name) {
 	 
-	 this->path = _path;
-	 this->name = _name;
+	
 }
 
 
