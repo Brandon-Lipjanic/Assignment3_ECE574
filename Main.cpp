@@ -4,6 +4,8 @@
 int main(int argc, char* argv[]) {
 	//ALAP
 	//ASAP
+	/*receive latency, vector(Node*)*/
+
 	//determine_width
 	//determine_probability
 	//determine_type distribution
