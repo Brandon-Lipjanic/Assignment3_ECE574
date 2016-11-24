@@ -22,6 +22,8 @@ void detProb(vector<Node*> Nodes) {
 	}
 
 }
+
+//
 vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 	vector<vector<double>> typeDist;
 
@@ -42,8 +44,8 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 	//Look through all of the nodes
 	for (int i = 0; i < Nodes.at(0)->latency; i++) {
 		
-		//Operation Type of 1 Means adder-subtractor
-		if (Nodes.at(i)->operationType == 1) {
+		//Operation Type of 0 Means adder-subtractor
+		if (Nodes.at(i)->operationType == 0) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
 				add_sub.at(i) = add_sub.at(i) + Nodes.at(i)->probability.at(i);
@@ -51,36 +53,39 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 
 		}
 
-		//Operation Type of 2 Means adder-subtractor
+		//Operation Type of 1 Means mult
 		if (Nodes.at(i)->operationType == 1) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
-				add_sub.at(i) = add_sub.at(i) + Nodes.at(i)->probability.at(i);
+				mult.at(i) = mult.at(i) + Nodes.at(i)->probability.at(i);
 			}
 
 		}
 
-		//Operation Type of 1 Means adder-subtractor
-		if (Nodes.at(i)->operationType == 1) {
+		//Operation Type of 2 Means logic
+		if (Nodes.at(i)->operationType == 2) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
-				add_sub.at(i) = add_sub.at(i) + Nodes.at(i)->probability.at(i);
+				logic.at(i) = logic.at(i) + Nodes.at(i)->probability.at(i);
 			}
 
 		}
 
-		//Operation Type of 1 Means adder-subtractor
-		if (Nodes.at(i)->operationType == 1) {
+		//Operation Type of 3 Means divd_modulo
+		if (Nodes.at(i)->operationType == 3) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
-				add_sub.at(i) = add_sub.at(i) + Nodes.at(i)->probability.at(i);
+				divd_modulo.at(i) = divd_modulo.at(i) + Nodes.at(i)->probability.at(i);
 			}
 
 		}
+}
 
-		
+	typeDist.push_back(add_sub);
+	typeDist.push_back(mult);
+	typeDist.push_back(logic);
+	typeDist.push_back(divd_modulo);
 
-	}
-
+	return typeDist;
 
 }
