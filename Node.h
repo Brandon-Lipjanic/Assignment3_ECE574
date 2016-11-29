@@ -36,7 +36,7 @@ public:
 
 	std::string name;
 
-	Node(double _path, std::string _name);
+	Node();
 	
 
 };

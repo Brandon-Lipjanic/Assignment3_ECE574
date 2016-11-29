@@ -73,13 +73,13 @@ void TotForce(vector<Node*> Nodes, vector<double> typeDef) {
 	for (i = 0; i < Nodes.size(); i++) {
 		for (j = 0; j < Nodes.at(i)->ASAP_Time - Nodes.at(i)->ALAP_Time + 1; j++) {
 			Nodes.at(i)->totalForce.push_back(Nodes.at(i)->selfForce.at(j) + Nodes.at(i)->predForce.at(j) + Nodes.at(i)->succForce.at(j));
+		}
 	}
 }
-
 //Look through all of the nodes and every timeslot in each node and determine the minimim total force.
 //Update that node to be schedule in that timeslot
 //Change the ALAP and ASAP time so that it fits the new schedule, i.e. if we choose to schedule in time 4 change ASAP = 4 and ALAP = 4
-void Schedule(vector<Node*> Nodes){
+void Schedule(vector<Node*> Nodes) {
 	double minTemp = 1000000;
 	Node* minNode = NULL;
 	int timeSlot = -1;
@@ -90,7 +90,7 @@ void Schedule(vector<Node*> Nodes){
 	//Find which node has the minimim total force and what time slot it occurs in.
 	for (int i = 0; i < Nodes.size(); i++) {
 		for (int j = 0; j < Nodes.at(i)->latency; j++) {
-			if (Nodes.at(i)->totalForce.at(j) < minTemp) {
+			if (Nodes.at(i)->totalForce.at(j) < minTemp && Nodes.at(i)->schedule == -1) {
 				minTemp = Nodes.at(i)->totalForce.at(j);
 				minNode = Nodes.at(i);
 				timeSlot = j;
@@ -100,11 +100,7 @@ void Schedule(vector<Node*> Nodes){
 
 	if (timeSlot != -1) {
 		minNode->ALAP_Time = timeSlot;
-		minNode->ASAP_Time = timeSlot;
+		minNode->ASAP_Time = timeSlot;	
 		minNode->schedule = timeSlot;
 	}
-
-	return;
-
-
 }
