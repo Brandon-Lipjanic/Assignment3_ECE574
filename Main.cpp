@@ -3,6 +3,7 @@
 #include "Translator.h"
 #include "vardef.h"
 #include "Node.h"
+#include "Calc.h"
 #include <stdio.h>
 #include <string>
 using namespace std;
@@ -25,6 +26,15 @@ int main(int argc, char* argv[]) {
 //		return 0;
 //	}
 	int i, j;
+	vector <Node*> Nodes;
+	vector<double> typeDist;
+//	typeDist = detTypeDist(Nodes);
+
+
+
+
+
+	/****************************************************************************/
 //	int latency = stoi(argv[2]);
 //	string outp = argv[3];
 	vector<string> v, v1, v2, modulesString, inputsString, out;
@@ -34,7 +44,7 @@ int main(int argc, char* argv[]) {
 
 	v = readFile("hls_test8.c");
 	//v = readFile(argv[1]);
-
+	
 
 	for (i = 0; i < v.size(); i++) {
 		if (v.at(i).find('=') != string::npos) {

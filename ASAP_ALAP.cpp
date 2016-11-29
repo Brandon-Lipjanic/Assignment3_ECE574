@@ -3,7 +3,7 @@
 using namespace std;
 
 void ASAP(vector<Node*> Nodes) {
-	int i, j, count1, count2, count3 = 0;
+	int i, j, count1=0, count2=0, count3 = 0;
 	Node* currNode = NULL;
 	Node* predNode = NULL;
 	for (i = 0; Nodes.size(); ++i) {
