@@ -3,35 +3,70 @@
 using namespace std;
 
 void ASAP(vector<Node*> Nodes) {
-	int i, j, count1=0, count2=0, count3 = 0;
+	int i, j, check = 0;
 	Node* currNode = NULL;
-	Node* predNode = NULL;
+	Node* succNode = NULL;
 	for (i = 0; Nodes.size(); ++i) {
 		currNode = Nodes.at(i);
-		currNode->ASAP_Time = 0;
-		//Trace back up the tree to see how many nodes are above it
-		while (currNode->predNodes.at(0) != NULL) {
-			predNode = currNode->predNodes.at(0);
-			++count1;
+		if (currNode->predNodes.size() == 0) {
+			currNode->ASAP_Time = 0;
 		}
-		currNode->ASAP_Time = count1;
+	}
+	while (check == 0) {
+		for (i = 0; Nodes.size(); ++i) {
+			currNode = Nodes.at(i);
+			if (currNode->ASAP_Time != NULL) {
+				for (j = 0; currNode->succNodes.size(); ++j) {
+					succNode = currNode->succNodes.at(j);
+					succNode->ASAP_Time = currNode->ASAP_Time + currNode->operationType;
+				}
+			}
+		}
+
+		for (i = 0; Nodes.size(); ++i) {
+			if (Nodes.at(i)->ASAP_Time == NULL) {
+				check = 0;
+				break;
+			}
+			else {
+				check = 1;
+			}
+		}
 	}
 
 	return;
 }
 void ALAP(vector<Node*> Nodes) {
-	int i, j, count;
+	int i, j, check;
 	Node* currNode = NULL;
-	Node* succNode = NULL;
-	count = 0;
+	Node* predNode = NULL;
+	
 	for (i = 0; Nodes.size(); ++i) {
 		currNode = Nodes.at(i);
-		currNode->ALAP_Time = 0;
-		while (currNode->succNodes.at(0) != NULL) {
-			succNode = currNode->succNodes.at(0);
-			++count;
+		if (currNode->succNodes.size() == 0) {
+			currNode->ALAP_Time = currNode->latency-1;
 		}
-		currNode->ALAP_Time = count;
+	}
+	while (check == 0) {
+		for (i = 0; Nodes.size(); ++i) {
+			currNode = Nodes.at(i);
+			if (currNode->ALAP_Time != NULL) {
+				for (j = 0; currNode->predNodes.size(); ++j) {
+					predNode = currNode->predNodes.at(j);
+					predNode->ALAP_Time = currNode->ALAP_Time - currNode->operationType;
+				}
+			}
+		}
+
+		for (i = 0; Nodes.size(); ++i) {
+			if (Nodes.at(i)->ALAP_Time == NULL) {
+				check = 0;
+				break;
+			}
+			else {
+				check = 1;
+			}
+		}
 	}
 
 	return;
