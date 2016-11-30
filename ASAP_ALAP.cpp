@@ -18,7 +18,9 @@ void ASAP(vector<Node*> Nodes) {
 			if (currNode->ASAP_Time != NULL) {
 				for (j = 0; currNode->succNodes.size(); ++j) {
 					succNode = currNode->succNodes.at(j);
-					succNode->ASAP_Time = currNode->ASAP_Time + currNode->operationType;
+					if (succNode->ASAP_Time < currNode->ASAP_Time + currNode->operationType) {
+						succNode->ASAP_Time = currNode->ASAP_Time + currNode->operationType;
+					}
 				}
 			}
 		}
@@ -44,7 +46,7 @@ void ALAP(vector<Node*> Nodes) {
 	for (i = 0; Nodes.size(); ++i) {
 		currNode = Nodes.at(i);
 		if (currNode->succNodes.size() == 0) {
-			currNode->ALAP_Time = currNode->latency-1;
+			currNode->ALAP_Time = currNode->latency - currNode->operationType;
 		}
 	}
 	while (check == 0) {
@@ -53,7 +55,9 @@ void ALAP(vector<Node*> Nodes) {
 			if (currNode->ALAP_Time != NULL) {
 				for (j = 0; currNode->predNodes.size(); ++j) {
 					predNode = currNode->predNodes.at(j);
-					predNode->ALAP_Time = currNode->ALAP_Time - currNode->operationType;
+					if (predNode->ALAP_Time > currNode->ALAP_Time - currNode->operationType) {
+						predNode->ALAP_Time = currNode->ALAP_Time - currNode->operationType;
+					}
 				}
 			}
 		}
