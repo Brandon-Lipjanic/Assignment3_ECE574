@@ -4,12 +4,14 @@
 #include "vardef.h"
 #include "Node.h"
 #include "Calc.h"
+#include "ASAP_ALAP.h"
 #include <stdio.h>
 #include <string>
 using namespace std;
 
 
 int main(int argc, char* argv[]) {
+	
 //	if (argc != 4) {
 //		return 0;
 //	}
@@ -23,7 +25,7 @@ int main(int argc, char* argv[]) {
 	vector<int> signs;
 	double criticalPath = -1;
 
-	v = readFile("hls_test8.c");
+	v = readFile("hls_lat_test1.c");
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
@@ -34,7 +36,16 @@ int main(int argc, char* argv[]) {
 	masterModules = masterTranslate(modulesString);
 	masterInputs = masterTranslate(inputsString);
 
-	signs = determineSign(master);
+	vector<Node*> nodes;
+
+	nodes = populateNodes(masterModules);
+	ASAP(nodes);
+	ALAP(nodes);
+
+//	signs = determineSign(master);
 	
 //	writeFile(outp, out);
+
+
+	
 }

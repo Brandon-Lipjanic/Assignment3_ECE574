@@ -21,6 +21,7 @@ public:
 	int ASAP_Time;
 	int width;
 	int latency; //Latency from the command line arg.
+	vector<int> availableTimes;
 
 	//I've updated all of these to be vectors because force changes with time slot, so there will be a force assuming the node is schedule in each time slot.
 	vector<double> selfForce;
@@ -28,6 +29,7 @@ public:
 	vector<double> succForce;
 	vector<double> totalForce;
 	int schedule;
+	int operationTime;  //1 for ALU, 2 for mult, 3 for div/modulo
 	int operationType;   //0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
 	string operation;
 	vector <double> probability;
