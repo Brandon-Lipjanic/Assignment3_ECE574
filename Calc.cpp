@@ -89,3 +89,86 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 	return typeDist;
 
 }
+
+vector<Node*> populateNodes(vector<vector<string>> in_Vec) {
+
+	vector<string> operators = {"+", "-", "/", "*", ">", "<", "=", "==", "?", ":", ">>", "<<", "%", "1"};
+	vector<Node*> nodes;
+	//Iterate through each module
+	for (int i = 0; i < in_Vec.size(); i++) {
+		Node* tempNode = new Node();
+		tempNode->outputVar = in_Vec.at(i).at(0);
+
+		//Iterate through each variable in the module, skipping the first
+		for (int j = 1; j < in_Vec.at(i).size(); j++) {
+
+			//If it's a variable add it to input list
+			if (find(operators.begin(), operators.end(), in_Vec.at(i).at(j)) == operators.end()) {
+				tempNode->inputVars.push_back(in_Vec.at(i).at(j));
+			}
+		}
+		tempNode->name = "node" + to_string(i);
+		nodes.push_back(tempNode);
+	}
+
+	//Find the Pred Nodes
+	Node* tempNode2;
+	for (int i = 0; i < nodes.size(); i++) {
+		for (int j = 0; j < nodes.at(i)->inputVars.size(); j++) {
+			for (int k = 0; k < nodes.size(); k++) {
+				if (nodes.at(i)->inputVars.at(j) == nodes.at(k)->outputVar) {
+					//check if its already in there
+					if (seeIfNodeContainsPredNode(nodes.at(i), nodes.at(k)) == 0) {
+						nodes.at(i)->predNodes.push_back(nodes.at(k));
+					}
+
+				}
+			}
+
+		}
+	}
+
+	//Find the Succ Nodes
+	
+
+	for (int i = 0; i < nodes.size(); i++) {
+		for (int j = 0; j < nodes.size(); j++) {
+			for (int k = 0; k < nodes.at(j)->inputVars.size(); k++) {
+				if (nodes.at(i)->outputVar == nodes.at(j)->inputVars.at(k)) {
+					//check if its already in there
+					if (seeIfNodeContainsSuccNode(nodes.at(i), nodes.at(j)) == 0) {
+						nodes.at(i)->succNodes.push_back(nodes.at(j));
+					}
+				}
+			}
+		}
+
+	}
+	return nodes;
+}
+
+//returns 0 if it is not in there 1 if its in there
+int seeIfNodeContainsPredNode(Node* node1, Node* node2) {
+	int boolVal = 0;
+
+	for (int i = 0; i < node1->predNodes.size(); i++) {
+		if (node2->name == node1->predNodes.at(i)->name) {
+			boolVal = 1;
+		}
+	}
+
+	return boolVal;
+
+}
+
+int seeIfNodeContainsSuccNode(Node* node1, Node* node2) {
+	int boolVal = 0;
+
+	for (int i = 0; i < node1->succNodes.size(); i++) {
+		if (node2->name == node1->succNodes.at(i)->name) {
+			boolVal = 1;
+		}
+	}
+
+	return boolVal;
+}

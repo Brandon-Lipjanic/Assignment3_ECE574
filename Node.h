@@ -33,6 +33,8 @@ public:
 	vector <double> probability;
 	vector <Node*> predNodes;
 	vector <Node*> succNodes;
+	vector<string> inputVars;
+	string outputVar;
 
 	std::string name;
 
