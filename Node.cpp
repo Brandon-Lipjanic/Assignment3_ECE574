@@ -13,10 +13,10 @@ Node::Node() {
 	 ALAP_Time = 999;
 	 ASAP_Time = -1;
 	 width = -1;
-	 latency = 10;
+	 latency = -1;
 	 schedule = -1; 
 	 operationType = 1;
-	 operation = "blank";
+	 operation = "";
 	 name = "blank";
 }
 

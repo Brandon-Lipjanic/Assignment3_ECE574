@@ -90,7 +90,7 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 
 }
 
-vector<Node*> populateNodes(vector<vector<string>> in_Vec) {
+vector<Node*> populateNodes(vector<vector<string>> in_Vec, int latency) {
 
 	vector<string> operators = {"+", "-", "/", "*", ">", "<", "=", "==", "?", ":", ">>", "<<", "%", "1"};
 	vector<Node*> nodes;
@@ -98,6 +98,43 @@ vector<Node*> populateNodes(vector<vector<string>> in_Vec) {
 	for (int i = 0; i < in_Vec.size(); i++) {
 		Node* tempNode = new Node();
 		tempNode->outputVar = in_Vec.at(i).at(0);
+		
+		
+			//mult
+			if (in_Vec.at(i).at(3) == "*") {
+				tempNode->operationTime = 2;
+				tempNode->operationType = 1;
+			}
+			//div mod
+			else if (in_Vec.at(i).at(3) == "%" || in_Vec.at(3).at(k) == "/") {
+				tempNode->operationTime = 3;
+				tempNode->operationType = 3;
+			}
+			//add 
+
+			else if (in_Vec.at(i).at(3) == "+" && in_Vec.at(i).at(4) != "1" && in_Vec.at(i).at(4) != "1 ") {
+				tempNode->operationTime = 1;
+				tempNode->operationType = 0;
+			}
+
+			//sub
+			else if (in_Vec.at(i).at(3) == "-" && in_Vec.at(i).at(4) != "1" && in_Vec.at(i).at(4) != "1 ") {
+				tempNode->operationTime = 1;
+				tempNode->operationType = 0;
+			}
+			else {
+				tempNode->operationTime = 1;
+				tempNode->operationType = 2;
+			}
+
+			
+
+
+
+
+		
+		
+
 
 		//Iterate through each variable in the module, skipping the first
 		for (int j = 1; j < in_Vec.at(i).size(); j++) {
@@ -107,7 +144,15 @@ vector<Node*> populateNodes(vector<vector<string>> in_Vec) {
 				tempNode->inputVars.push_back(in_Vec.at(i).at(j));
 			}
 		}
+
+		//full module name
+
+		for (int z = 0; i < in_Vec.at(i).size(); z++) {
+			tempNode->operation = tempNode->operation + in_Vec.at(i).at(z);
+		}
+
 		tempNode->name = "node" + to_string(i);
+		tempNode->latency = latency;
 		nodes.push_back(tempNode);
 	}
 
