@@ -39,7 +39,7 @@ void ASAP(vector<Node*> Nodes) {
 	return;
 }
 void ALAP(vector<Node*> Nodes) {
-	int i, j, check;
+	int i, j, check = 0;
 	Node* currNode = NULL;
 	Node* predNode = NULL;
 	
