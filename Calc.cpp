@@ -106,7 +106,7 @@ vector<Node*> populateNodes(vector<vector<string>> in_Vec, int latency) {
 				tempNode->operationType = 1;
 			}
 			//div mod
-			else if (in_Vec.at(i).at(3) == "%" || in_Vec.at(3).at(k) == "/") {
+			else if (in_Vec.at(i).at(3) == "%" || in_Vec.at(i).at(3) == "/") {
 				tempNode->operationTime = 3;
 				tempNode->operationType = 3;
 			}

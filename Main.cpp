@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 
 	vector<Node*> nodes;
 
-	nodes = populateNodes(masterModules);
+	nodes = populateNodes(masterModules,10);
 	ASAP(nodes);
 	ALAP(nodes);
 
