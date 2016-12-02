@@ -147,7 +147,7 @@ vector<Node*> populateNodes(vector<vector<string>> in_Vec, int latency) {
 
 		//full module name
 
-		for (int z = 0; i < in_Vec.at(i).size(); z++) {
+		for (int z = 0; z < in_Vec.at(i).size(); z++) {
 			tempNode->operation = tempNode->operation + in_Vec.at(i).at(z);
 		}
 
