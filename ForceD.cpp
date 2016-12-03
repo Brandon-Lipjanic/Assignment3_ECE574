@@ -71,8 +71,8 @@ void PreForce(vector<Node*> Nodes, vector<double> typeDef) {
 					compare.erase(compare.end() - (compare.size() - m)); // delete 
 				}
 			}
-			//assign predecessor force
-			if (compare.size() == 1) {
+			//assign predecessor force if there is only one time slot available and the width is greater than 1
+			if (compare.size() == 1 && Nodes.at(i)->predNodes.at(k)->availableTimes.size() != 1) {
 				Nodes.at(i)->predForce.end() = Nodes.at(i)->predForce.end() + Nodes.at(i)->predNodes.at(k)->selfForce.at(0);
 			}
 		}
