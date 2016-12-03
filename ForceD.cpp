@@ -81,20 +81,54 @@ void PreForce(vector<Node*> Nodes) {
 
 
 void SucForce(vector<Node*> Nodes) {
-	int i = 0, j = 0, k = 0;
-	//calculate the self force for each node
-	for (i = 0; i < Nodes.size(); i++) {
-		//for each time slot 
-		for (j = Nodes.at(i)->ASAP_Time; j < Nodes.at(i)->ALAP_Time; j++) {
-			//determine overlap for each succsessor node
-			for (k = 0; k < Nodes.at(i)->succNodes.size(); k++) {
-				//create a predecessor force
-				Nodes.at(i)->succForce.push_back(0);
-				//determine overlap
-				if (Nodes.at(i)->succNodes.at(k)->ASAP_Time >= Nodes.at(i)->ASAP_Time && Nodes.at(i)->succNodes.at(k)->ALAP_Time <= Nodes.at(i)->ALAP_Time) {
-					//FIND successor force. Where do you assume that it is scheduled if it has a width greater than 2?
-					//Nodes.at(i)->succForce.end() == Nodes.at(i)->succForce.end() + //successor force
+	int i = 0, j = 0, k = 0, l = 0, m = 0;
+	vector<int> UsedTime;
+	vector<int> compare;
+	for (i = 0; i < Nodes.size(); i++) {//for every node
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { // for every time slot scheduled determine which time slots are used/unavailable
+																   ////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
+			Nodes.at(i)->succForce.push_back(0);
+			m = j;
+			UsedTime.clear();
+
+			if (Nodes.at(i)->operationType == 0) {//adder subtractor 
+				UsedTime.push_back(Nodes.at(i)->availableTimes.at(m));
+			}
+			else if (Nodes.at(i)->operationType == 1) {//multiplier
+				while (m < Nodes.at(i)->availableTimes.size() && m < 2) {
+					UsedTime.push_back(Nodes.at(i)->availableTimes.at(m));
+					m++;
 				}
+			}
+			else if (Nodes.at(i)->operationType == 2) {//logic
+			}
+			else if (Nodes.at(i)->operationType == 3) {
+				while (m < Nodes.at(i)->availableTimes.size() && m < 3) { //divider modulo
+					UsedTime.push_back(Nodes.at(i)->availableTimes.at(m));
+					m++;
+				}
+			}
+
+			for (k = 0; k < Nodes.at(i)->succNodes.size(); k++) {//for each prenode
+				compare = Nodes.at(i)->succNodes.at(k)->availableTimes;	//make compare vector to flag times
+				for (l = 0; l < Nodes.at(i)->succNodes.at(k)->availableTimes.size(); l++) {//for prenode each time slot 
+					for (m = 0; m < UsedTime.size() - 1; m++) {
+						if (compare.at(l) == UsedTime.at(m)) {
+							compare.at(l) = -1;
+						}
+					}
+				}
+
+			}
+			//rm all flagged
+			for (m = compare.size() - 1; m >= 0; m++) {
+				if (compare.at(m) == -1) {
+					compare.erase(compare.end() - (compare.size() - m)); // delete 
+				}
+			}
+			//assign predecessor force if there is only one time slot available and the width is greater than 1
+			if (compare.size() == 1 && Nodes.at(i)->succNodes.at(k)->availableTimes.size() != 1) {
+				Nodes.at(i)->succForce.end() = Nodes.at(i)->succForce.end() + Nodes.at(i)->succNodes.at(k)->selfForce.at(0);
 			}
 		}
 	}
