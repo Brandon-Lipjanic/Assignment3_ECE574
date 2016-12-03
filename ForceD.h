@@ -7,8 +7,8 @@ using namespace std;
 //successor_force
 //total_force
 //schedule 
-void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef);
-void PreForce(vector<Node*> Nodes, vector<vector<double>> typeDef);
-void SucForce(vector<Node*> Nodes, vector<vector<double>> typeDef);
-void TotForce(vector<Node*> Nodes, vector<vector<double>> typeDef);
+void selfForce(vector<Node*> Nodes, vector<double> typeDef);
+void PreForce(vector<Node*> Nodes, vector<double> typeDef);
+void SucForce(vector<Node*> Nodes, vector<double> typeDef);
+void TotForce(vector<Node*> Nodes, vector<double> typeDef);
 void Schedule(vector<Node*> Nodes);

@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include "Translator.h"
 #include "vardef.h"
+#include "ForceD.h"
 #include "Node.h"
 #include "Calc.h"
 #include "ASAP_ALAP.h"
-#include "ForceD.h"
 #include <stdio.h>
 #include <string>
 using namespace std;
@@ -19,13 +19,15 @@ int main(int argc, char* argv[]) {
 	int i, j;
 	vector <Node*> Nodes;
 	vector<vector<double>> typeDist;
+	
 //	int latency = stoi(argv[2]);
 //	string outp = argv[3];
 	vector<string> v, v1, modulesString, inputsString, out;
 	vector<vector<string> > master, masterModules, masterInputs;
 	vector<int> signs;
 	double criticalPath = -1;
-	v = readFile("hls_lat_test4.c");
+
+	v = readFile("hls_lat_test6.c");
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
@@ -37,17 +39,25 @@ int main(int argc, char* argv[]) {
 	masterInputs = masterTranslate(inputsString);
 
 	vector<Node*> nodes;
-	nodes = populateNodes(masterModules, 2);
+	nodes = populateNodes(masterModules,10);
 	ASAP(nodes);
 	ALAP(nodes);
-	detWidth(nodes);
-	detProb(nodes);
-	typeDist = detTypeDist(nodes);
-	selfForce(nodes, typeDist);
-	nodes = populateNodes(masterModules,10);
 
-//	signs = determineSign(master);
-	
+	for (int i = 0; i < nodes.size(); i++) {
+		detWidth(nodes);
+		detProb(nodes);
+		typeDist = detTypeDist(nodes);
+		for (int j = 0; j < 3; j++) {
+			selfForce(nodes, typeDist.at(j));
+			PreForce(nodes, typeDist.at(j));
+			SucForce(nodes, typeDist.at(j));
+			TotForce(nodes, typeDist.at(j));
+		}
+		Schedule(nodes);
+
+	}
+
+
 //	writeFile(outp, out);
 
 

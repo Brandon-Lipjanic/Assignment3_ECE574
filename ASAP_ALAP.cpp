@@ -35,7 +35,6 @@ void ASAP(vector<Node*> Nodes) {
 			}
 		}
 	}
-
 	for (i = 0; i < Nodes.size(); ++i) {
 		if (Nodes.at(i)->ASAP_Time >= Nodes.at(i)->latency) {
 			cout << "The latency is insufficient to schedule all nodes";
@@ -53,7 +52,7 @@ void ALAP(vector<Node*> Nodes) {
 	for (i = 0; i < Nodes.size(); ++i) {
 		currNode = Nodes.at(i);
 		if (currNode->succNodes.size() == 0) {
-			currNode->ALAP_Time = (currNode->latency) - (currNode->operationType);
+			currNode->ALAP_Time = (currNode->latency) - (currNode->operationTime);
 		}
 	}
 	while (check == 0) {
@@ -62,8 +61,8 @@ void ALAP(vector<Node*> Nodes) {
 			if (currNode->ALAP_Time != 999) {
 				for (j = 0; j < currNode->predNodes.size(); ++j) {
 					predNode = currNode->predNodes.at(j);
-					if (predNode->ALAP_Time > ((currNode->ALAP_Time) - (currNode->operationTime))) {
-						predNode->ALAP_Time = (currNode->ALAP_Time) - (currNode->operationTime);
+					if (predNode->ALAP_Time > ((currNode->ALAP_Time) - (predNode->operationTime))) {
+						predNode->ALAP_Time = (currNode->ALAP_Time) - (predNode->operationTime);
 					}
 				}
 			}

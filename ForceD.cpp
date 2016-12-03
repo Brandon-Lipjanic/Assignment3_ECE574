@@ -13,7 +13,7 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 			for (k = Nodes.at(i)->ASAP_Time; k <= Nodes.at(i)->ALAP_Time; k++) {
 				//1-probability
 				if (k == j) {
-						Nodes.at(i)->selfForce.at(j) = Nodes.at(i)->selfForce.at(j) + typeDef.at(Nodes.at(i)->operationType).at(k)*(1 - Nodes.at(i)->probability.at(k));
+					Nodes.at(i)->selfForce.at(j) = Nodes.at(i)->selfForce.at(j) + typeDef.at(Nodes.at(i)->operationType).at(k)*(1 - Nodes.at(i)->probability.at(k));
 				}
 				//0-probability 
 				else {
@@ -31,7 +31,7 @@ void PreForce(vector<Node*> Nodes, vector<double> typeDef) {
 	vector<int> compare;
 	for (i = 0; i < Nodes.size(); i++) {//for every node
 		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { // for every time slot scheduled determine which time slots are used/unavailable
-														  ////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
+																   ////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
 			Nodes.at(i)->predForce.push_back(0);
 			m = j;
 			UsedTime.clear();

@@ -1,9 +1,9 @@
 #include "Calc.h"
 
 void detWidth(vector<Node*> Nodes) {
-
+	
 	for (int i = 0; i < Nodes.size(); i++) {
-		Nodes.at(i)->width = Nodes.at(i)->ALAP_Time - Nodes.at(i)->ASAP_Time;
+		Nodes.at(i)->width = Nodes.at(i)->ALAP_Time - Nodes.at(i)-> ASAP_Time;
 	}
 
 	return;
@@ -13,10 +13,10 @@ void detProb(vector<Node*> Nodes) {
 		for (int j = 0; j < Nodes.at(i)->latency; j++) {
 
 			if (j >= Nodes.at(i)->ASAP_Time && j <= Nodes.at(i)->ALAP_Time) {
-				Nodes.at(i)->probability.push_back(1.0 / (Nodes.at(i)->width));
+				Nodes.at(i)->probability.at(j) = 1.0 / (Nodes.at(i)->width);
 			}
 			else {
-				Nodes.at(i)->probability.push_back(0);
+				Nodes.at(i)->probability.at(j) = 0;
 			}
 		}
 	}
@@ -25,45 +25,61 @@ void detProb(vector<Node*> Nodes) {
 
 //
 vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
-	int i = 0, j = 0;
 	vector<vector<double>> typeDist;
+
+	
 	vector<double> add_sub;
 	vector<double> mult;
 	vector<double> logic;
 	vector<double> divd_modulo;
 
 	//initilize all of the vectors to have a zero value;
-	for (i = 0; i < Nodes.at(0)->latency; i++) {
-		add_sub.push_back(0);
-		mult.push_back(0);
-		logic.push_back(0);
-		divd_modulo.push_back(0);
+	for (int i = 0; i < Nodes.at(0)->latency; i++) {
+		add_sub.at(i) = 0;
+		mult.at(i) = 0;
+		logic.at(i) = 0;
+		divd_modulo.at(i) = 0;
 	}
 
-	//for every latency
-	for (i = 0; i < Nodes.at(0)->latency; i++) {
-		for (int j = 0; j < Nodes.size(); j++) {
-			//Operation Type of 0 Means adder-subtractor
-			if (Nodes.at(j)->operationType == 0) {
-				add_sub.at(i) = add_sub.at(i) + Nodes.at(j)->probability.at(i);
+	//Look through all of the nodes
+	for (int i = 0; i < Nodes.at(0)->latency; i++) {
+		
+		//Operation Type of 0 Means adder-subtractor
+		if (Nodes.at(i)->operationType == 0) {
+
+			for (int j = 0; j < Nodes.at(i)->latency; j++) {
+				add_sub.at(i) = add_sub.at(i) + Nodes.at(i)->probability.at(i);
 			}
 
-			//Operation Type of 1 Means mult
-			if (Nodes.at(j)->operationType == 1) {
-				mult.at(i) = mult.at(i) + Nodes.at(j)->probability.at(i);
-			}
-
-			//Operation Type of 2 Means logic
-			if (Nodes.at(j)->operationType == 2) {
-				logic.at(i) = logic.at(i) + Nodes.at(j)->probability.at(i);
-			}
-
-			//Operation Type of 3 Means divd_modulo
-			if (Nodes.at(j)->operationType == 3) {
-				divd_modulo.at(i) = divd_modulo.at(i) + Nodes.at(j)->probability.at(i);
-			}
 		}
-	}
+
+		//Operation Type of 1 Means mult
+		if (Nodes.at(i)->operationType == 1) {
+
+			for (int j = 0; j < Nodes.at(i)->latency; j++) {
+				mult.at(i) = mult.at(i) + Nodes.at(i)->probability.at(i);
+			}
+
+		}
+
+		//Operation Type of 2 Means logic
+		if (Nodes.at(i)->operationType == 2) {
+
+			for (int j = 0; j < Nodes.at(i)->latency; j++) {
+				logic.at(i) = logic.at(i) + Nodes.at(i)->probability.at(i);
+			}
+
+		}
+
+		//Operation Type of 3 Means divd_modulo
+		if (Nodes.at(i)->operationType == 3) {
+
+			for (int j = 0; j < Nodes.at(i)->latency; j++) {
+				divd_modulo.at(i) = divd_modulo.at(i) + Nodes.at(i)->probability.at(i);
+			}
+
+		}
+}
 
 	typeDist.push_back(add_sub);
 	typeDist.push_back(mult);
@@ -198,5 +214,6 @@ int seeIfNodeContainsSuccNode(Node* node1, Node* node2) {
 			boolVal = 1;
 		}
 	}
+
 	return boolVal;
 }
