@@ -25,7 +25,6 @@ int main(int argc, char* argv[]) {
 	vector<vector<string> > master, masterModules, masterInputs;
 	vector<int> signs;
 	double criticalPath = -1;
-
 	v = readFile("hls_lat_test4.c");
 	//v = readFile(argv[1]);
 
@@ -38,14 +37,14 @@ int main(int argc, char* argv[]) {
 	masterInputs = masterTranslate(inputsString);
 
 	vector<Node*> nodes;
-
-	nodes = populateNodes(masterModules, 4);
+	nodes = populateNodes(masterModules, 2);
 	ASAP(nodes);
 	ALAP(nodes);
 	detWidth(nodes);
 	detProb(nodes);
 	typeDist = detTypeDist(nodes);
 	selfForce(nodes, typeDist);
+	nodes = populateNodes(masterModules,10);
 
 //	signs = determineSign(master);
 	

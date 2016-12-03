@@ -76,48 +76,48 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 
 vector<Node*> populateNodes(vector<vector<string>> in_Vec, int latency) {
 
-	vector<string> operators = { "+", "-", "/", "*", ">", "<", "=", "==", "?", ":", ">>", "<<", "%", "1" };
+	vector<string> operators = {"+", "-", "/", "*", ">", "<", "=", "==", "?", ":", ">>", "<<", "%", "1"};
 	vector<Node*> nodes;
 	//Iterate through each module
 	for (int i = 0; i < in_Vec.size(); i++) {
 		Node* tempNode = new Node();
 		tempNode->outputVar = in_Vec.at(i).at(0);
+		
+		
+			//mult
+			if (in_Vec.at(i).at(3) == "*") {
+				tempNode->operationTime = 2;
+				tempNode->operationType = 1;
+			}
+			//div mod
+			else if (in_Vec.at(i).at(3) == "%" || in_Vec.at(i).at(3) == "/") {
+				tempNode->operationTime = 3;
+				tempNode->operationType = 3;
+			}
+			//add 
 
+			else if (in_Vec.at(i).at(3) == "+" && in_Vec.at(i).at(4) != "1" && in_Vec.at(i).at(4) != "1 ") {
+				tempNode->operationTime = 1;
+				tempNode->operationType = 0;
+			}
 
-		//mult
-		if (in_Vec.at(i).at(3) == "*") {
-			tempNode->operationTime = 2;
-			tempNode->operationType = 1;
-		}
-		//div mod
-		else if (in_Vec.at(i).at(3) == "%" || in_Vec.at(i).at(3) == "/") {
-			tempNode->operationTime = 3;
-			tempNode->operationType = 3;
-		}
-		//add 
+			//sub
+			else if (in_Vec.at(i).at(3) == "-" && in_Vec.at(i).at(4) != "1" && in_Vec.at(i).at(4) != "1 ") {
+				tempNode->operationTime = 1;
+				tempNode->operationType = 0;
+			}
+			else {
+				tempNode->operationTime = 1;
+				tempNode->operationType = 2;
+			}
 
-		else if (in_Vec.at(i).at(3) == "+" && in_Vec.at(i).at(4) != "1" && in_Vec.at(i).at(4) != "1 ") {
-			tempNode->operationTime = 1;
-			tempNode->operationType = 0;
-		}
-
-		//sub
-		else if (in_Vec.at(i).at(3) == "-" && in_Vec.at(i).at(4) != "1" && in_Vec.at(i).at(4) != "1 ") {
-			tempNode->operationTime = 1;
-			tempNode->operationType = 0;
-		}
-		else {
-			tempNode->operationTime = 1;
-			tempNode->operationType = 2;
-		}
-
-
-
-
+			
 
 
 
 
+		
+		
 
 
 		//Iterate through each variable in the module, skipping the first
@@ -158,7 +158,7 @@ vector<Node*> populateNodes(vector<vector<string>> in_Vec, int latency) {
 	}
 
 	//Find the Succ Nodes
-
+	
 
 	for (int i = 0; i < nodes.size(); i++) {
 		for (int j = 0; j < nodes.size(); j++) {
@@ -198,6 +198,5 @@ int seeIfNodeContainsSuccNode(Node* node1, Node* node2) {
 			boolVal = 1;
 		}
 	}
-
 	return boolVal;
 }
