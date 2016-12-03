@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 	vector<int> signs;
 	double criticalPath = -1;
 
-	v = readFile("hls_lat_test1.c");
+	v = readFile("hls_lat_test2.c");
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
