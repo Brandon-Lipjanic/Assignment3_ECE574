@@ -4,68 +4,53 @@
 #include "vardef.h"
 #include "Node.h"
 #include "Calc.h"
+#include "ASAP_ALAP.h"
+#include "ForceD.h"
 #include <stdio.h>
 #include <string>
 using namespace std;
 
 
 int main(int argc, char* argv[]) {
-	//ALAP
-	//ASAP
-	/*receive latency, vector(Node*)*/
-	//determine_width
-	//determine_probability
-	//determine_type distribution
-	//self_force
-	//predecessor_force
-	//successor_force
-	//total_force
-	//schedule 
-
+	
 //	if (argc != 4) {
 //		return 0;
 //	}
 	int i, j;
 	vector <Node*> Nodes;
-	vector<double> typeDist;
-//	typeDist = detTypeDist(Nodes);
-
-
-
-
-
-	/****************************************************************************/
+	vector<vector<double>> typeDist;
 //	int latency = stoi(argv[2]);
 //	string outp = argv[3];
-	vector<string> v, v1, v2, modulesString, inputsString, out;
+	vector<string> v, v1, modulesString, inputsString, out;
 	vector<vector<string> > master, masterModules, masterInputs;
 	vector<int> signs;
 	double criticalPath = -1;
 
-	v = readFile("hls_test8.c");
+	v = readFile("hls_lat_test4.c");
 	//v = readFile(argv[1]);
-	
 
-	for (i = 0; i < v.size(); i++) {
-		if (v.at(i).find('=') != string::npos) {
-			modulesString.push_back(v.at(i));
-		}
-		else if (v[i] != ""){
-			inputsString.push_back(v.at(i));
-		}
-	}
-	for (i = 0; i < v.size(); ++i) {
-		v1 = getInputs(v[i]);
-		if (v1.size() != 0)
-			master.push_back(v1);
-	}
+	v = separator(v, 0);
+	modulesString = separator(v, 1);
+	inputsString = separator(v, 2);
 
-	for (j = 0; j < v.size(); ++j) {
-		if (v[j] != "")
-			v2.push_back(v[j]);
-	}
+	master = masterTranslate(v);
+	masterModules = masterTranslate(modulesString);
+	masterInputs = masterTranslate(inputsString);
 
-	signs = determineSign(master);
+	vector<Node*> nodes;
+
+	nodes = populateNodes(masterModules, 4);
+	ASAP(nodes);
+	ALAP(nodes);
+	detWidth(nodes);
+	detProb(nodes);
+	typeDist = detTypeDist(nodes);
+	selfForce(nodes, typeDist);
+
+//	signs = determineSign(master);
 	
 //	writeFile(outp, out);
+
+
+	
 }

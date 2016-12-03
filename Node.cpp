@@ -7,10 +7,17 @@
 #include <algorithm>
 #include "Node.h"
 using namespace std;
-
- Node::Node(double _path, string _name) {
-	 
-	
+//when you create a node initilize schedule to -1;
+Node::Node() {
+	;
+	 ALAP_Time = 999;
+	 ASAP_Time = -1;
+	 width = -1;
+	 latency = -1;
+	 schedule = -1; 
+	 operationType = 1;
+	 operation = "";
+	 name = "blank";
 }
 
 

@@ -72,3 +72,44 @@ vector<int> determineSign(vector<vector<string> > v) {
 	}
 	return signs;
 }
+
+vector<vector<string> > masterTranslate(vector<string> v) {
+	int i = 0;
+	vector<string> v1;
+	vector<vector<string> > master;
+	for (i = 0; i < v.size(); ++i) {
+		v1 = getInputs(v[i]);
+		if (v1.size() != 0)
+			master.push_back(v1);
+	}
+
+	return master;
+}
+
+vector<string> separator(vector<string> v, int flag) {
+	int i = 0;
+	vector<string> output;
+	if (flag == 0) { //takes the spaces out of original v vector
+		for (i = 0; i < v.size(); ++i) {
+			if (v[i] != "")
+				output.push_back(v[i]);
+		}
+	}
+	else if (flag == 1) { //gets the module strings only
+		for (i = 0; i < v.size(); i++) {
+			if (v.at(i).find('=') != string::npos) {
+				output.push_back(v.at(i));
+			}
+		}
+	}
+	else if (flag == 2) { //gets the input strings only
+		for (i = 0; i < v.size(); i++) {
+			if (v.at(i).find('=') == string::npos) {
+				output.push_back(v.at(i));
+			}
+		}
+	}
+	
+	return output;
+}
+
