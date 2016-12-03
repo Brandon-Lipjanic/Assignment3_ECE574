@@ -25,7 +25,7 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 }
 
 
-void PreForce(vector<Node*> Nodes, vector<double> typeDef) {
+void PreForce(vector<Node*> Nodes) {
 	int i = 0, j = 0, k = 0, l = 0, m = 0;
 	vector<int> UsedTime;
 	vector<int> compare;
@@ -80,7 +80,7 @@ void PreForce(vector<Node*> Nodes, vector<double> typeDef) {
 }
 
 
-void SucForce(vector<Node*> Nodes, vector<double> typeDef) {
+void SucForce(vector<Node*> Nodes) {
 	int i = 0, j = 0, k = 0;
 	//calculate the self force for each node
 	for (i = 0; i < Nodes.size(); i++) {
@@ -100,7 +100,7 @@ void SucForce(vector<Node*> Nodes, vector<double> typeDef) {
 	}
 }
 
-void TotForce(vector<Node*> Nodes, vector<double> typeDef) {
+void TotForce(vector<Node*> Nodes) {
 	int i = 0, j = 0, k = 0;
 	//calculate the self force for each node
 	for (i = 0; i < Nodes.size(); i++) {
