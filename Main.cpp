@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 		typeDist = detTypeDist(nodes);
 			selfForce(nodes, typeDist);
 			PredForce(nodes);
-			//SucForce(nodes, typeDist.at(j));
+			SucForce(nodes);
 			//TotForce(nodes, typeDist.at(j));
 		//Schedule(nodes);
 

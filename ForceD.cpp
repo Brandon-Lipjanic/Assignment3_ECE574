@@ -87,7 +87,7 @@ void SucForce(vector<Node*> Nodes) {
 	for (i = 0; i < Nodes.size(); i++) {//for every node
 		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { // for every time slot scheduled determine which time slots are used/unavailable
 																   ////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
-			Nodes.at(i)->succForce.push_back(0);
+			Nodes.at(i)->predForce.push_back(0);
 			m = j;
 			UsedTime.clear();
 
@@ -118,18 +118,18 @@ void SucForce(vector<Node*> Nodes) {
 						}
 					}
 				}
-
-			}
-			//rm all flagged
-			for (m = compare.size() - 1; m >= 0; m++) {
-				if (compare.at(m) == -1) {
-					compare.erase(compare.end() - (compare.size() - m)); // delete 
+				//rm all flagged
+				for (m = compare.size() - 1; m >= 0; m--) {
+					if (compare.at(m) == -1) {
+						compare.erase(compare.end() - (compare.size() - m - 1)); // delete 
+					}
+				}
+				//assign predecessor force if there is only one time slot available and the width is greater than 1
+				if (compare.size() == 1 && Nodes.at(i)->succNodes.at(k)->availableTimes.size() != 1) {
+					Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size() - 1) = Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size() - 1) + Nodes.at(i)->succNodes.at(k)->selfForce.at(0);
 				}
 			}
-			//assign predecessor force if there is only one time slot available and the width is greater than 1
-			if (compare.size() == 1 && Nodes.at(i)->succNodes.at(k)->availableTimes.size() != 1) {
-				Nodes.at(i)->succForce.end() = Nodes.at(i)->succForce.end() + Nodes.at(i)->succNodes.at(k)->selfForce.at(0);
-			}
+
 		}
 	}
 }
