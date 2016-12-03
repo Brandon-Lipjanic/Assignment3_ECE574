@@ -189,6 +189,7 @@ vector<Node*> populateNodes(vector<vector<string>> in_Vec, int latency) {
 		}
 
 	}
+
 	return nodes;
 }
 

@@ -43,6 +43,13 @@ int main(int argc, char* argv[]) {
 	ASAP(nodes);
 	ALAP(nodes);
 
+	//populate available times
+	for (int i = 0; i < nodes.size(); i++) {
+		for (int j = nodes.at(i)->ASAP_Time; j < nodes.at(i)->ALAP_Time; j++) {
+			nodes.at(i)->availableTimes.push_back(j);
+		}
+	}
+
 	for (int i = 0; i < nodes.size(); i++) {
 		detWidth(nodes);
 		detProb(nodes);
