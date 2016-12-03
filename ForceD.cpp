@@ -25,7 +25,7 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 }
 
 
-void PreForce(vector<Node*> Nodes) {
+void PredForce(vector<Node*> Nodes) {
 	int i = 0, j = 0, k = 0, l = 0, m = 0;
 	vector<int> UsedTime;
 	vector<int> compare;

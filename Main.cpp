@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 		detProb(nodes);
 		typeDist = detTypeDist(nodes);
 			selfForce(nodes, typeDist);
-			//PreForce(nodes, typeDist.at(j));
+			PredForce(nodes);
 			//SucForce(nodes, typeDist.at(j));
 			//TotForce(nodes, typeDist.at(j));
 		//Schedule(nodes);
