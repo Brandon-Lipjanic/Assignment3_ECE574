@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 	vector<int> signs;
 	double criticalPath = -1;
 
-	v = readFile("hls_lat_test6.c");
+	v = readFile("hls_lat_test4.c");
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 	masterInputs = masterTranslate(inputsString);
 
 	vector<Node*> nodes;
-	nodes = populateNodes(masterModules,10);
+	nodes = populateNodes(masterModules,5);
 	ASAP(nodes);
 	ALAP(nodes);
 
