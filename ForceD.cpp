@@ -63,18 +63,18 @@ void PredForce(vector<Node*> Nodes) {
 						}
 					}
 				}
-
-			}
-			//rm all flagged
-			for (m = compare.size() - 1; m >= 0; m++) {
-				if (compare.at(m) == -1) {
-					compare.erase(compare.end() - (compare.size() - m)); // delete 
+				//rm all flagged
+				for (m = compare.size() - 1; m >= 0; m--) {
+					if (compare.at(m) == -1) {
+						compare.erase(compare.end() - (compare.size() - m - 1)); // delete 
+					}
+				}
+				//assign predecessor force if there is only one time slot available and the width is greater than 1
+				if (compare.size() == 1 && Nodes.at(i)->predNodes.at(k)->availableTimes.size() != 1) {
+					Nodes.at(i)->predForce.at(Nodes.at(i)->predForce.size() - 1) = Nodes.at(i)->predForce.at(Nodes.at(i)->predForce.size() - 1) + Nodes.at(i)->predNodes.at(k)->selfForce.at(0);
 				}
 			}
-			//assign predecessor force if there is only one time slot available and the width is greater than 1
-			if (compare.size() == 1 && Nodes.at(i)->predNodes.at(k)->availableTimes.size() != 1) {
-				Nodes.at(i)->predForce.end() = Nodes.at(i)->predForce.end() + Nodes.at(i)->predNodes.at(k)->selfForce.at(0);
-			}
+			
 		}
 	}
 }
