@@ -42,7 +42,7 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 	}
 
 	//Look through all of the nodes
-	for (int i = 0; i < Nodes.at(0)->latency; i++) {
+	for (int i = 0; i < Nodes.size(); i++) {
 		
 		//Operation Type of 0 Means adder-subtractor
 		if (Nodes.at(i)->operationType == 0) {
