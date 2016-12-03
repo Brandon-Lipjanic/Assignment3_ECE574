@@ -35,10 +35,10 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 
 	//initilize all of the vectors to have a zero value;
 	for (int i = 0; i < Nodes.at(0)->latency; i++) {
-		add_sub.at(i) = 0;
-		mult.at(i) = 0;
-		logic.at(i) = 0;
-		divd_modulo.at(i) = 0;
+		add_sub.at.push_back(0);
+		mult.push_back(0);
+		logic.push_back(0);
+		divd_modulo.push_back(0);
 	}
 
 	//Look through all of the nodes
