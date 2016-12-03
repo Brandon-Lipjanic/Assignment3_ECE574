@@ -13,10 +13,10 @@ void detProb(vector<Node*> Nodes) {
 		for (int j = 0; j < Nodes.at(i)->latency; j++) {
 
 			if (j >= Nodes.at(i)->ASAP_Time && j <= Nodes.at(i)->ALAP_Time) {
-				Nodes.at(i)->probability.at(j) = 1.0 / (Nodes.at(i)->width);
+				Nodes.at(i)->probability.push_back( 1.0 / (Nodes.at(i)->width));
 			}
 			else {
-				Nodes.at(i)->probability.at(j) = 0;
+				Nodes.at(i)->probability.push_back(0);
 			}
 		}
 	}
