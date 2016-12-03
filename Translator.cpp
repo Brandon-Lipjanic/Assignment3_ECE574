@@ -11,14 +11,13 @@ using namespace std;
 
 int size = 0;
 //Gets the Netlist Lines.
-vector<string> getInputs(string str) {
+vector<string> getLines(string str) {
 
 	vector<string> v;
 	string delimiter = " ";
 	char chars[] = ",";
 
-	
-		str.erase(remove(str.begin(), str.end(), chars[0]), str.end());
+	str.erase(remove(str.begin(), str.end(), chars[0]), str.end());
 	
 	size_t pos = 0;
 	string token;
@@ -78,7 +77,7 @@ vector<vector<string> > masterTranslate(vector<string> v) {
 	vector<string> v1;
 	vector<vector<string> > master;
 	for (i = 0; i < v.size(); ++i) {
-		v1 = getInputs(v[i]);
+		v1 = getLines(v[i]);
 		if (v1.size() != 0)
 			master.push_back(v1);
 	}

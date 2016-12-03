@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-vector<string> getInputs(string str);
+vector<string> getLines(string str);
 vector<int> determineSign(vector<vector<string> > v);
 vector<vector<string> > masterTranslate(vector<string> v);
 vector<string> separator(vector<string> v, int flag);
