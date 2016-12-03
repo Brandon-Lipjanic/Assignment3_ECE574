@@ -61,8 +61,8 @@ void ALAP(vector<Node*> Nodes) {
 			if (currNode->ALAP_Time != 999) {
 				for (j = 0; j < currNode->predNodes.size(); ++j) {
 					predNode = currNode->predNodes.at(j);
-					if (predNode->ALAP_Time > ((currNode->ALAP_Time) - (currNode->operationTime))) {
-						predNode->ALAP_Time = (currNode->ALAP_Time) - (currNode->operationTime);
+					if (predNode->ALAP_Time > ((currNode->ALAP_Time) - (predNode->operationTime))) {
+						predNode->ALAP_Time = (currNode->ALAP_Time) - (predNode->operationTime);
 					}
 				}
 			}
