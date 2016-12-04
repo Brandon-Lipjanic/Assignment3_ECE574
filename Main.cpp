@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 	masterInputs = masterTranslate(inputsString);
 
 	vector<Node*> nodes;
-	nodes = populateNodes(masterModules,5);
+	nodes = populateNodes(masterModules,4);
 	ASAP(nodes);
 	ALAP(nodes);
 

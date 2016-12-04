@@ -3,7 +3,7 @@
 void detWidth(vector<Node*> Nodes) {
 	
 	for (int i = 0; i < Nodes.size(); i++) {
-		Nodes.at(i)->width = Nodes.at(i)->ALAP_Time - Nodes.at(i)-> ASAP_Time;
+		Nodes.at(i)->width = Nodes.at(i)->ALAP_Time - Nodes.at(i)-> ASAP_Time + 1;
 	}
 
 	return;
@@ -48,7 +48,7 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 		if (Nodes.at(i)->operationType == 0) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
-				add_sub.at(i) = add_sub.at(i) + Nodes.at(i)->probability.at(i);
+				add_sub.at(j) = add_sub.at(j) + Nodes.at(i)->probability.at(j);
 			}
 
 		}
@@ -57,7 +57,7 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 		if (Nodes.at(i)->operationType == 1) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
-				mult.at(i) = mult.at(i) + Nodes.at(i)->probability.at(i);
+				mult.at(j) = mult.at(j) + Nodes.at(i)->probability.at(j);
 			}
 
 		}
@@ -66,7 +66,7 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 		if (Nodes.at(i)->operationType == 2) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
-				logic.at(i) = logic.at(i) + Nodes.at(i)->probability.at(i);
+				logic.at(j) = logic.at(j) + Nodes.at(i)->probability.at(j);
 			}
 
 		}
@@ -75,7 +75,7 @@ vector<vector<double>> detTypeDist(vector<Node*> Nodes) {
 		if (Nodes.at(i)->operationType == 3) {
 
 			for (int j = 0; j < Nodes.at(i)->latency; j++) {
-				divd_modulo.at(i) = divd_modulo.at(i) + Nodes.at(i)->probability.at(i);
+				divd_modulo.at(j) = divd_modulo.at(j) + Nodes.at(i)->probability.at(j);
 			}
 
 		}
