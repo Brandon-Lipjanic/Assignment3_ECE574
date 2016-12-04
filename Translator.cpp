@@ -7,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include "Translator.h"
+#include "Node.h"
 using namespace std;
 
 int size = 0;
@@ -112,3 +113,15 @@ vector<string> separator(vector<string> v, int flag) {
 	return output;
 }
 
+vector<string> decipher(vector<Node*> nodes) {
+	//This will be the master function for translating the nodes into strings that can be output the the file
+	vector<string> master;
+	
+	//Synchronous state transition always@ block
+	master.push_back("always @(posedge Clk) begin");
+	master.push_back("if (Rst) State <= Wait");
+	master.push_back("else State <= NextState");
+	master.push_back("end");
+
+	return master;
+}
