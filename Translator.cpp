@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "Translator.h"
 #include "Node.h"
+#include "vardef.h"
 using namespace std;
 
 int size = 0;
@@ -113,14 +114,22 @@ vector<string> separator(vector<string> v, int flag) {
 	return output;
 }
 
-vector<string> decipher(vector<Node*> nodes) {
+vector<string> decipher(vector<Node*> nodes, vector<vector<string> > v) {
 	//This will be the master function for translating the nodes into strings that can be output the the file
 	vector<string> master;
+	vector<string> temp;
+	int i;
+
+	//call variable definition translation and push it into master
+	temp = vardef(v);
+	for (i = 0; i < temp.size(); ++i) {
+		master.push_back(temp.at(i));
+	}
 	
 	//Synchronous state transition always@ block
 	master.push_back("always @(posedge Clk) begin");
-	master.push_back("if (Rst) State <= Wait");
-	master.push_back("else State <= NextState");
+	master.push_back("if (Rst) State <= Wait;");
+	master.push_back("else State <= NextState;");
 	master.push_back("end");
 
 	return master;
