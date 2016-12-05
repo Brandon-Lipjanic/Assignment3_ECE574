@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 	vector<int> signs;
 	double criticalPath = -1;
 
-	v = readFile("hls_lat_test5.c");
+	v = readFile("hls_lat_test4.c");
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
@@ -37,6 +37,10 @@ int main(int argc, char* argv[]) {
 	master = masterTranslate(v);
 	masterModules = masterTranslate(modulesString);
 	masterInputs = masterTranslate(inputsString);
+
+	string temp = module(master);
+	string stringTemp = "module HLSM (Clk, Rst, Start, Done,";
+	stringTemp.append(temp);
 
 	vector<Node*> nodes;
 	nodes = populateNodes(masterModules,5);

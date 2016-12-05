@@ -118,13 +118,23 @@ vector<string> decipher(vector<Node*> nodes, vector<vector<string> > v) {
 	//This will be the master function for translating the nodes into strings that can be output the the file
 	vector<string> master;
 	vector<string> temp;
-	int i, j;
-	string st;
+	int i, j, max;
+	string stringTemp;
+
+	//module definition
+	stringTemp = "module HLSM (Clk, Rst, Start, Done,";
+	stringTemp.append(module(v));
+	master.push_back(stringTemp);
+	master.push_back("	input Clk, Rst, Start;");
+	master.push_back("	output reg Done;");
 
 	//call variable definition translation and push it into master
 	temp = vardef(v);
 	for (i = 0; i < temp.size(); ++i) {
 		master.push_back(temp.at(i));
+	}
+	for (i = 0; i < states.size(); ++i) {
+		if (states.)
 	}
 
 	master.push_back("parameter Wait = 0;");
