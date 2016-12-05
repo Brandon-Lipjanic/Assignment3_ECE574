@@ -6,6 +6,7 @@
 #include "Node.h"
 #include "Calc.h"
 #include "ASAP_ALAP.h"
+#include "State.h"
 #include <stdio.h>
 #include <string>
 using namespace std;
@@ -25,6 +26,7 @@ int main(int argc, char* argv[]) {
 	vector<string> v, v1, modulesString, inputsString, out;
 	vector<vector<string> > master, masterModules, masterInputs;
 	vector<int> signs;
+	vector<State*> states;
 	double criticalPath = -1;
 
 	v = readFile("hls_lat_test4.c");
@@ -65,6 +67,8 @@ int main(int argc, char* argv[]) {
 			Schedule(nodes);
 
 	}
+
+	states = createStates(nodes);
 
 
 //	writeFile(outp, out);
