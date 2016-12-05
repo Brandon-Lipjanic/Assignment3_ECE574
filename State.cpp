@@ -53,6 +53,38 @@ vector <State*> createStates(vector<Node*> nodes) {
 		}
 		flag = false;
 	}
+	bool multFound = false;
+	bool divFound = false;
+
+	for (int i = 0; i < states.size(); i++) {
+		multFound = false;
+		divFound = true;
+		for (int j = 0; j < states.at(i)->operationNames.size(); j++) {
+
+			if ((states.at(i)->operationNames.at(j).find("/") != string::npos || states.at(i)->operationNames.at(j).find("%") != string::npos) && divFound == false) {
+				State* newState = new State();
+				newState->name = to_string(states.at(i)->number + 1);
+				newState->number = states.at(i)->number + 1;
+				states.push_back(newState);
+
+				State* newState2 = new State();
+				newState2->name = to_string(states.at(i)->number + 2);
+				newState2->number = states.at(i)->number + 2;
+				states.push_back(newState2);
+				divFound = true;
+				
+			}
+
+			if (states.at(i)->operationNames.at(j).find("*") != string::npos && multFound == false) {
+				State* newState = new State();
+				newState->name = to_string(states.at(i)->number + 1);
+				newState->number = states.at(i)->number;
+				states.push_back(newState);
+				multFound = true;
+			}
+
+		}
+	}
 
 	State* finalState = new State();
 	finalState->name = "Final";
