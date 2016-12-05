@@ -176,7 +176,7 @@ void TotForce(vector<Node*> Nodes) {
 	//calculate the self force for each node
 	for (i = 0; i < Nodes.size(); i++) {
 		//FIXME:DABS Should this be ALAP-ASAP
-		for (j = 0; j < Nodes.at(i)->ASAP_Time - Nodes.at(i)->ALAP_Time + 1; j++) { 
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { 
 			Nodes.at(i)->totalForce.push_back(Nodes.at(i)->selfForce.at(j) + Nodes.at(i)->predForce.at(j) + Nodes.at(i)->succForce.at(j));
 		}
 	}
