@@ -27,9 +27,14 @@ vector<string> vardef(vector<vector<string> > master) {
 	while (i != master.size() - 1) {
 		var = 0;
 		//check if variable def
-		if (master.at(i).at(0).compare("input") == 0 || master.at(i).at(0).compare("output") == 0 || master.at(i).at(0).compare("register") == 0 || master.at(i).at(0).compare("wire") == 0) {
+		if (master.at(i).at(0).compare("input") == 0 || master.at(i).at(0).compare("output") == 0 || master.at(i).at(0).compare("register") == 0 || master.at(i).at(0).compare("wire") == 0 || master.at(i).at(0).compare("variable") == 0) {
 			var = 1;
-			out.push_back(master.at(i).at(0));
+			if (master.at(i).at(0).compare("register") == 0) {
+				out.push_back("reg");
+			}
+			else {
+				out.push_back(master.at(i).at(0));
+			}
 		}
 		if (var == 1) {
 			if (master.at(i).at(1).at(0) == 'U') {
