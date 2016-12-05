@@ -21,6 +21,9 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 					Nodes.at(i)->selfForce.at(j) = Nodes.at(i)->selfForce.at(j) + typeDef.at(Nodes.at(i)->operationType).at(k)*(0 - Nodes.at(i)->probability.at(k));
 				}
 			}
+			if (Nodes.at(i)->selfForce.at(j) < .000000001 && Nodes.at(i)->selfForce.at(j)> -.00000001) {
+				Nodes.at(i)->selfForce.at(j) = 0;
+			}
 		}
 	}
 }
