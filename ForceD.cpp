@@ -7,7 +7,7 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 	//calculate the self force for each node
 	for (i = 0; i < Nodes.size(); i++) {
 		//calculate the self force for each time slot
-		for (j = 0; j <= Nodes.at(i)->availableTimes.size(); j++) {
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
 			//create new self force
 			Nodes.at(i)->selfForce.push_back(0);
 			for (k = Nodes.at(i)->ASAP_Time; k <= Nodes.at(i)->ALAP_Time; k++) {

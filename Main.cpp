@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 			Schedule(nodes);
 
 	}
-
+	decipher(nodes, master);
 
 //	writeFile(outp, out);
 
