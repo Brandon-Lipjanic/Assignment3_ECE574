@@ -9,7 +9,7 @@
 using namespace std;
 //when you create a node initilize schedule to -1;
 Node::Node() {
-	;
+	
 	 ALAP_Time = 999;
 	 ASAP_Time = -1;
 	 width = -1;
