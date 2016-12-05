@@ -166,7 +166,7 @@ void SucForce(vector<Node*> Nodes) {
 						find = x;
 					}
 				}
-				Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size()-1) = Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size() - 1) + Nodes.at(i)->succNodes.at(k)->selfForce.at(find);
+				Nodes.at(i)->succForce.at(0) = Nodes.at(i)->succForce.at(0) + Nodes.at(i)->succNodes.at(k)->selfForce.at(find);
 			}
 		}
 
