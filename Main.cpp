@@ -40,10 +40,6 @@ int main(int argc, char* argv[]) {
 	masterModules = masterTranslate(modulesString);
 	masterInputs = masterTranslate(inputsString);
 
-	string temp = module(master);
-	string stringTemp = "module HLSM (Clk, Rst, Start, Done,";
-	stringTemp.append(temp);
-
 	vector<Node*> nodes;
 	nodes = populateNodes(masterModules,5);
 	ASAP(nodes);
