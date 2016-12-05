@@ -194,7 +194,7 @@ void Schedule(vector<Node*> Nodes) {
 
 	//Find which node has the minimim total force and what time slot it occurs in.
 	for (int i = 0; i < Nodes.size(); i++) {
-		for (int j = 0; j < Nodes.at(i)->latency; j++) {
+		for (int j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
 			if (Nodes.at(i)->totalForce.at(j) < minTemp && Nodes.at(i)->schedule == -1) {
 				minTemp = Nodes.at(i)->totalForce.at(j);
 				minNode = Nodes.at(i);
