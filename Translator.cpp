@@ -9,6 +9,8 @@
 #include "Translator.h"
 #include "Node.h"
 #include "vardef.h"
+#include "State.h"
+
 using namespace std;
 
 int size = 0;
@@ -114,22 +116,112 @@ vector<string> separator(vector<string> v, int flag) {
 	return output;
 }
 
-vector<string> decipher(vector<Node*> nodes, vector<vector<string> > v) {
+vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 	//This will be the master function for translating the nodes into strings that can be output the the file
 	vector<string> master;
-	vector<string> temp;
-	int i;
+	vector<string> vectorTemp;
+	int i, j, max, bits, pos;
+	string temp;
+
+	//module definition
+	temp = "module HLSM (Clk, Rst, Start, Done,";
+	temp.append(module(v));
+	master.push_back(temp);
+	master.push_back("	input Clk, Rst, Start;");
+	master.push_back("	output reg Done;");
 
 	//call variable definition translation and push it into master
-	temp = vardef(v);
-	for (i = 0; i < temp.size(); ++i) {
-		master.push_back(temp.at(i));
+	vectorTemp = vardef(v);
+	for (i = 0; i < vectorTemp.size(); ++i) {
+		temp = "	";
+		temp.append(vectorTemp.at(i));
+		master.push_back(temp);
 	}
+	master.push_back("");
+
+	//get bit length for state
+	for (i = 0; i < states.size(); ++i) {
+		if (states.at(i)->name == "Final")
+			max = states.at(i)->number;
+	}
+	if (max <= 1)
+		bits = 0;
+	else if (max <= 3)
+		bits = 1;
+	else if (max <= 7)
+		bits = 2;
+	else if (max <= 15)
+		bits = 3;
+	else if (max <= 31)
+		bits = 4;
+	else if (max <= 63)
+		bits = 5;
+	
+	temp = "	reg[";
+	temp.append(to_string(bits));
+	temp.append(":0] State;");
+	master.push_back(temp);
+	temp = "	reg[";
+	temp.append(to_string(bits));
+	temp.append(":0] NextState;");
+	master.push_back(temp);
+	master.push_back("");
+	master.push_back("	parameter Wait = 0;");
+	temp = "			Final = ";
+	temp.append(to_string(max));
+	temp.append(";");
+	master.push_back(temp);
+	master.push_back("");
+
+	//states start here
+	master.push_back("	always @(State) begin");
+	master.push_back("		case (State)");
+	for (i = 0; i < states.size(); ++i) {
+		if (states.at(i)->number == 0) { //Wait State
+			master.push_back("			Wait: begin");
+			master.push_back("				Done <= 0;");
+			master.push_back("				if (Start == 1) begin");
+			master.push_back("					NextState <= 1;");
+			master.push_back("				end else begin");
+			master.push_back("					NextState <= 0;");
+			master.push_back("				end");
+			master.push_back("			end");
+		}
+		else if (0 < states.at(i)->number &&  states.at(i)->number < max) {
+			temp = "			";
+			temp.append(to_string(states.at(i)->number));
+			temp.append(": begin");
+			master.push_back(temp);
+			for (j = 0; j < states.at(i)->operationNames.size(); ++j) {
+				temp = "				";
+				temp.append(states.at(i)->operationNames.at(j));
+				temp.append(";");
+				pos = temp.find("=");
+				temp.replace(pos, 1, "<=");
+				master.push_back(temp);
+			}
+			temp = "				NextState <= ";
+			temp.append(to_string(states.at(i + 1)->number));
+			temp.append(";");
+			master.push_back(temp);
+
+			master.push_back("			end");
+		}
+		else if (states.at(i)->number == max) { //Final State
+			master.push_back("			Final: begin");
+			master.push_back("				Done <= 1;");
+			master.push_back("				NextState <= Wait;"); //This may not be correct
+			master.push_back("			end");
+		}
+	}
+	master.push_back("	end");
+
 	
 	//Synchronous state transition always@ block
-	master.push_back("always @(posedge Clk) begin");
-	master.push_back("if (Rst) State <= Wait;");
-	master.push_back("else State <= NextState;");
+	master.push_back("	always @(posedge Clk) begin");
+	master.push_back("		if (Rst) State <= Wait;");
+	master.push_back("		else State <= NextState;");
+	master.push_back("	end");
 	master.push_back("end");
 
 	return master;
