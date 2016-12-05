@@ -68,9 +68,5 @@ int main(int argc, char* argv[]) {
 	out = decipher(states, master);
 	writeFile("output.txt", out);
 	return 0;
-
-	
-
-
 	
 }

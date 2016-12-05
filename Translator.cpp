@@ -10,6 +10,7 @@
 #include "Node.h"
 #include "vardef.h"
 #include "State.h"
+
 using namespace std;
 
 int size = 0;
@@ -119,7 +120,7 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 	//This will be the master function for translating the nodes into strings that can be output the the file
 	vector<string> master;
 	vector<string> vectorTemp;
-	int i, j, max, bits;
+	int i, j, max, bits, pos;
 	string temp;
 
 	//module definition
@@ -173,10 +174,46 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 	master.push_back("");
 
 	//states start here
-	master.push_back("	always @(posedge Clk) begin");
-	//	for (i = 0; i < states.size(); ++i) {
+	master.push_back("	always @(State) begin");
+	master.push_back("		case (State)");
+	for (i = 0; i < states.size(); ++i) {
+		if (states.at(i)->number == 0) { //Wait State
+			master.push_back("			Wait: begin");
+			master.push_back("				Done <= 0;");
+			master.push_back("				if (Start == 1) begin");
+			master.push_back("					NextState <= 1;");
+			master.push_back("				end else begin");
+			master.push_back("					NextState <= 0;");
+			master.push_back("				end");
+			master.push_back("			end");
+		}
+		else if (0 < states.at(i)->number &&  states.at(i)->number < max) {
+			temp = "			";
+			temp.append(to_string(states.at(i)->number));
+			temp.append(": begin");
+			master.push_back(temp);
+			for (j = 0; j < states.at(i)->operationNames.size(); ++j) {
+				temp = "				";
+				temp.append(states.at(i)->operationNames.at(j));
+				temp.append(";");
+				pos = temp.find("=");
+				temp.replace(pos, 1, "<=");
+				master.push_back(temp);
+			}
+			temp = "				NextState <= ";
+			temp.append(to_string(states.at(i + 1)->number));
+			temp.append(";");
+			master.push_back(temp);
 
-	//	}
+			master.push_back("			end");
+		}
+		else if (states.at(i)->number == max) { //Final State
+			master.push_back("			Final: begin");
+			master.push_back("				Done <= 1;");
+			master.push_back("				NextState <= Wait;"); //This may not be correct
+			master.push_back("			end");
+		}
+	}
 	master.push_back("	end");
 
 	
