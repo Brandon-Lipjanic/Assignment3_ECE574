@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 
 	//populate available times
 	for (int i = 0; i < nodes.size(); i++) {
-		for (int j = nodes.at(i)->ASAP_Time; j < nodes.at(i)->ALAP_Time; j++) {
+		for (int j = nodes.at(i)->ASAP_Time; j <= nodes.at(i)->ALAP_Time; j++) {
 			nodes.at(i)->availableTimes.push_back(j);
 		}
 	}
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 			selfForce(nodes, typeDist);
 			PredForce(nodes);
 			SucForce(nodes);
-			//TotForce(nodes, typeDist.at(j));
+			TotForce(nodes);
 		//Schedule(nodes);
 
 	}
