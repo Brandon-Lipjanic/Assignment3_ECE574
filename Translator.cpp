@@ -133,9 +133,7 @@ vector<string> decipher(vector<Node*> nodes, vector<vector<string> > v) {
 	for (i = 0; i < temp.size(); ++i) {
 		master.push_back(temp.at(i));
 	}
-	for (i = 0; i < states.size(); ++i) {
-		if (states.)
-	}
+
 
 	master.push_back("parameter Wait = 0;");
 	master.push_back("			Final = ");
