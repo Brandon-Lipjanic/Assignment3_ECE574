@@ -65,9 +65,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	states = createStates(nodes);
+	out = decipher(states, master);
+	writeFile("output.txt", out);
+	return 0;
 
-
-//	writeFile(outp, out);
+	
 
 
 	

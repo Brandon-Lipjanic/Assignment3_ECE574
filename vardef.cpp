@@ -63,7 +63,7 @@ vector<string> vardef(vector<vector<string> > master) {
 			n_string = std::to_string(n_int);
 
 			out.at(i).append(n_string);
-			out.at(i).append(": 0] ");
+			out.at(i).append(":0] ");
 
 			k = 2;
 			while (k < master.at(i).size())

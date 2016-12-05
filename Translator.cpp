@@ -136,7 +136,6 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 		temp.append(vectorTemp.at(i));
 		master.push_back(temp);
 	}
-<<<<<<< HEAD
 	master.push_back("");
 	//get bit length for state
 	for (i = 0; i < states.size(); ++i) {
@@ -155,34 +154,36 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 		bits = 4;
 	else if (max <= 63)
 		bits = 5;
-=======
 
->>>>>>> aaf4334506053ed7a39b38088834b620b16808f4
-
-	temp = "reg[";
+	temp = "	reg[";
 	temp.append(to_string(bits));
 	temp.append(":0] State;");
 	master.push_back(temp);
-	temp = "reg[";
+	temp = "	reg[";
 	temp.append(to_string(bits));
 	temp.append(":0] NextState;");
 	master.push_back(temp);
 	master.push_back("");
-	master.push_back("parameter Wait = 0;");
+	master.push_back("	parameter Wait = 0;");
 	temp = "			Final = ";
 	temp.append(to_string(max));
 	temp.append(";");
 	master.push_back(temp);
+	master.push_back("");
 
 	//states start here
-//	for (i = 0; i < states.size(); ++i) {
+	master.push_back("	always @(posedge Clk) begin");
+	//	for (i = 0; i < states.size(); ++i) {
 
-//	}
+	//	}
+	master.push_back("	end");
+
 	
 	//Synchronous state transition always@ block
-	master.push_back("always @(posedge Clk) begin");
-	master.push_back("	if (Rst) State <= Wait;");
-	master.push_back("	else State <= NextState;");
+	master.push_back("	always @(posedge Clk) begin");
+	master.push_back("		if (Rst) State <= Wait;");
+	master.push_back("		else State <= NextState;");
+	master.push_back("	end");
 	master.push_back("end");
 
 	return master;
