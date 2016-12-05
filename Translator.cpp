@@ -166,7 +166,7 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 	temp.append(":0] NextState;");
 	master.push_back(temp);
 	master.push_back("");
-	master.push_back("	parameter Wait = 0;");
+	master.push_back("	parameter Wait = 0,");
 	temp = "			Final = ";
 	temp.append(to_string(max));
 	temp.append(";");
@@ -207,11 +207,12 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 
 			master.push_back("			end");
 		}
-		else if (states.at(i)->number == max) { //Final State
+		else if (states.at(i)->name == "Final") { //Final State
 			master.push_back("			Final: begin");
 			master.push_back("				Done <= 1;");
 			master.push_back("				NextState <= Wait;"); //This may not be correct
 			master.push_back("			end");
+			master.push_back("		endcase");
 		}
 	}
 	master.push_back("	end");
@@ -222,7 +223,7 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 	master.push_back("		if (Rst) State <= Wait;");
 	master.push_back("		else State <= NextState;");
 	master.push_back("	end");
-	master.push_back("end");
+	master.push_back("endmodule");
 
 	return master;
 }

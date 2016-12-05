@@ -56,7 +56,14 @@ vector <State*> createStates(vector<Node*> nodes) {
 
 	State* finalState = new State();
 	finalState->name = "Final";
-	finalState->number = states.size() + 1;
+	int max = -1;
+	for (int i = 0; i < states.size(); i++) {
+		if (states.at(i)->number > max) {
+			max = states.at(i)->number;
+		}
+	}
+
+	finalState->number = max + 1;
 	states.push_back(finalState);
 
 	return states;
