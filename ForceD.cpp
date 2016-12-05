@@ -6,6 +6,7 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 	int i = 0, j = 0, k = 0;
 	//calculate the self force for each node
 	for (i = 0; i < Nodes.size(); i++) {
+		Nodes.at(i)->selfForce.clear();
 		//calculate the self force for each time slot
 		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
 			//create new self force
@@ -30,9 +31,9 @@ void PredForce(vector<Node*> Nodes) {
 	int x = 0, find = 0;
 	vector<int> UsedTime;
 	vector<int> compare;
-
 	//initialize predForces
 	for (i = 0; i < Nodes.size(); i++) {//for every node
+		Nodes.at(i)->predForce.clear();
 		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++ ) {
 			Nodes.at(i)->predForce.push_back(0);
 		}
@@ -103,9 +104,10 @@ void SucForce(vector<Node*> Nodes) {
 	int x = 0, find = 0;
 	vector<int> UsedTime;
 	vector<int> compare;
-
+	
 	//initialize predForces
 	for (i = 0; i < Nodes.size(); i++) {//for every node
+		Nodes.at(i)->succForce.clear();
 		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
 			Nodes.at(i)->succForce.push_back(0);
 		}
@@ -172,9 +174,11 @@ void SucForce(vector<Node*> Nodes) {
 }
 
 void TotForce(vector<Node*> Nodes) {
+
 	int i = 0, j = 0, k = 0;
 	//calculate the self force for each node
 	for (i = 0; i < Nodes.size(); i++) {
+		Nodes.at(i)->totalForce.clear();
 		//FIXME:DABS Should this be ALAP-ASAP
 		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { 
 			Nodes.at(i)->totalForce.push_back(Nodes.at(i)->selfForce.at(j) + Nodes.at(i)->predForce.at(j) + Nodes.at(i)->succForce.at(j));
@@ -198,7 +202,7 @@ void Schedule(vector<Node*> Nodes) {
 			if (Nodes.at(i)->totalForce.at(j) < minTemp && Nodes.at(i)->schedule == -1) {
 				minTemp = Nodes.at(i)->totalForce.at(j);
 				minNode = Nodes.at(i);
-				timeSlot = j;
+				timeSlot = Nodes.at(i)->availableTimes.at(j);
 			}
 		}
 	}
