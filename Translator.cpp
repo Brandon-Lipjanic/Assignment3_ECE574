@@ -136,7 +136,7 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 		temp.append(vectorTemp.at(i));
 		master.push_back(temp);
 	}
-<<<<<<< HEAD
+
 	master.push_back("");
 	//get bit length for state
 	for (i = 0; i < states.size(); ++i) {
@@ -155,9 +155,6 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 		bits = 4;
 	else if (max <= 63)
 		bits = 5;
-=======
-
->>>>>>> aaf4334506053ed7a39b38088834b620b16808f4
 
 	temp = "reg[";
 	temp.append(to_string(bits));
