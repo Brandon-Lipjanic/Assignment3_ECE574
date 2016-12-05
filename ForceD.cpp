@@ -27,14 +27,24 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 
 void PredForce(vector<Node*> Nodes) {
 	int i = 0, j = 0, k = 0, l = 0, m = 0;
+	int x = 0, find = 0;
 	vector<int> UsedTime;
 	vector<int> compare;
+
+	//initialize predForces
 	for (i = 0; i < Nodes.size(); i++) {//for every node
-		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { // for every time slot scheduled determine which time slots are used/unavailable
-																   ////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++ ) {
 			Nodes.at(i)->predForce.push_back(0);
+		}
+	}
+
+	//determine predecessor force for every node
+	for (i = 0; i < Nodes.size(); i++) {
+		UsedTime.clear();
+		// for every time slot scheduled determine which time slots are used/unavailable
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { 
+			////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
 			m = j;
-			UsedTime.clear();
 
 			if (Nodes.at(i)->operationType == 0) {//adder subtractor 
 				UsedTime.push_back(Nodes.at(i)->availableTimes.at(m));
@@ -53,43 +63,61 @@ void PredForce(vector<Node*> Nodes) {
 					m++;
 				}
 			}
-
-			for (k = 0; k < Nodes.at(i)->predNodes.size(); k++) {//for each prenode
+		}
+			
+		//itterate through all predecessor nodes to determine if they are forced into one slot
+			for (k = 0; k < Nodes.at(i)->predNodes.size(); k++) {
 				compare = Nodes.at(i)->predNodes.at(k)->availableTimes;	//make compare vector to flag times
-				for (l = 0; l < Nodes.at(i)->predNodes.at(k)->availableTimes.size(); l++) {//for prenode each time slot 
-					for (m = 0; m < UsedTime.size() - 1; m++) {
+				//flag all times which overlap with usedTime
+				for (l = 0; l < Nodes.at(i)->predNodes.at(k)->availableTimes.size(); l++) {
+					for (m = 0; m < UsedTime.size(); m++) {
 						if (compare.at(l) == UsedTime.at(m)) {
 							compare.at(l) = -1;
 						}
 					}
 				}
 				//rm all flagged
-				for (m = compare.size() - 1; m >= 0; m--) {
+				for (m = compare.size()-1; m >= 0; m--) {
 					if (compare.at(m) == -1) {
-						compare.erase(compare.end() - (compare.size() - m - 1)); // delete 
+						compare.pop_back(); // delete 
+						
 					}
 				}
 				//assign predecessor force if there is only one time slot available and the width is greater than 1
-				if (compare.size() == 1 && Nodes.at(i)->predNodes.at(k)->availableTimes.size() != 1) {
-					Nodes.at(i)->predForce.at(Nodes.at(i)->predForce.size() - 1) = Nodes.at(i)->predForce.at(Nodes.at(i)->predForce.size() - 1) + Nodes.at(i)->predNodes.at(k)->selfForce.at(0);
+				if (compare.size() == 1) {
+					for (x = 0; x < Nodes.at(i)->predNodes.at(k)->availableTimes.size(); x++) {
+						if (Nodes.at(i)->predNodes.at(k)->availableTimes.at(x) == compare.at(0)) {
+							find = x;
+						}
+					}
+					Nodes.at(i)->predForce.at(Nodes.at(i)->predForce.size() - 1) = Nodes.at(i)->predForce.at(Nodes.at(i)->predForce.size() - 1) + Nodes.at(i)->predNodes.at(k)->selfForce.at(find);
 				}
 			}
 			
-		}
 	}
 }
 
 
 void SucForce(vector<Node*> Nodes) {
 	int i = 0, j = 0, k = 0, l = 0, m = 0;
+	int x = 0, find = 0;
 	vector<int> UsedTime;
 	vector<int> compare;
+
+	//initialize predForces
 	for (i = 0; i < Nodes.size(); i++) {//for every node
-		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { // for every time slot scheduled determine which time slots are used/unavailable
-																   ////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
-			Nodes.at(i)->predForce.push_back(0);
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
+			Nodes.at(i)->succForce.push_back(0);
+		}
+	}
+
+	//determine predecessor force for every node
+	for (i = 0; i < Nodes.size(); i++) {
+		UsedTime.clear();
+		// for every time slot scheduled determine which time slots are used/unavailable
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
+			////0 for adder/sub, 1 for mult, 2 for logic/logical, 3 for divider/modulo
 			m = j;
-			UsedTime.clear();
 
 			if (Nodes.at(i)->operationType == 0) {//adder subtractor 
 				UsedTime.push_back(Nodes.at(i)->availableTimes.at(m));
@@ -108,29 +136,38 @@ void SucForce(vector<Node*> Nodes) {
 					m++;
 				}
 			}
+		}
 
-			for (k = 0; k < Nodes.at(i)->succNodes.size(); k++) {//for each prenode
-				compare = Nodes.at(i)->succNodes.at(k)->availableTimes;	//make compare vector to flag times
-				for (l = 0; l < Nodes.at(i)->succNodes.at(k)->availableTimes.size(); l++) {//for prenode each time slot 
-					for (m = 0; m < UsedTime.size() - 1; m++) {
-						if (compare.at(l) == UsedTime.at(m)) {
-							compare.at(l) = -1;
-						}
+		//itterate through all predecessor nodes to determine if they are forced into one slot
+		for (k = 0; k < Nodes.at(i)->succNodes.size(); k++) {
+			compare = Nodes.at(i)->succNodes.at(k)->availableTimes;	//make compare vector to flag times
+																	//flag all times which overlap with usedTime
+			for (l = 0; l < Nodes.at(i)->succNodes.at(k)->availableTimes.size(); l++) {
+				for (m = 0; m < UsedTime.size(); m++) {
+					if (compare.at(l) == UsedTime.at(m)) {
+						compare.at(l) = -1;
 					}
-				}
-				//rm all flagged
-				for (m = compare.size() - 1; m >= 0; m--) {
-					if (compare.at(m) == -1) {
-						compare.erase(compare.end() - (compare.size() - m - 1)); // delete 
-					}
-				}
-				//assign predecessor force if there is only one time slot available and the width is greater than 1
-				if (compare.size() == 1 && Nodes.at(i)->succNodes.at(k)->availableTimes.size() != 1) {
-					Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size() - 1) = Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size() - 1) + Nodes.at(i)->succNodes.at(k)->selfForce.at(0);
 				}
 			}
+			//rm all flagged
+			reverse(compare.begin(), compare.end());
+			for (m = compare.size() - 1; m >= 0; m--) {
+				if (compare.at(m) == -1) {
+					compare.pop_back(); // delete 
 
+				}
+			}
+			//assign predecessor force if there is only one time slot available and the width is greater than 1
+			if (compare.size() == 1) {
+				for (x = 0; x < Nodes.at(i)->succNodes.at(k)->availableTimes.size(); x++) {
+					if (Nodes.at(i)->succNodes.at(k)->availableTimes.at(x) == compare.at(0)) {
+						find = x;
+					}
+				}
+				Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size()-1) = Nodes.at(i)->succForce.at(Nodes.at(i)->succForce.size() - 1) + Nodes.at(i)->succNodes.at(k)->selfForce.at(find);
+			}
 		}
+
 	}
 }
 
@@ -139,7 +176,7 @@ void TotForce(vector<Node*> Nodes) {
 	//calculate the self force for each node
 	for (i = 0; i < Nodes.size(); i++) {
 		//FIXME:DABS Should this be ALAP-ASAP
-		for (j = 0; j < Nodes.at(i)->ASAP_Time - Nodes.at(i)->ALAP_Time + 1; j++) { 
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) { 
 			Nodes.at(i)->totalForce.push_back(Nodes.at(i)->selfForce.at(j) + Nodes.at(i)->predForce.at(j) + Nodes.at(i)->succForce.at(j));
 		}
 	}
@@ -157,7 +194,7 @@ void Schedule(vector<Node*> Nodes) {
 
 	//Find which node has the minimim total force and what time slot it occurs in.
 	for (int i = 0; i < Nodes.size(); i++) {
-		for (int j = 0; j < Nodes.at(i)->latency; j++) {
+		for (int j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
 			if (Nodes.at(i)->totalForce.at(j) < minTemp && Nodes.at(i)->schedule == -1) {
 				minTemp = Nodes.at(i)->totalForce.at(j);
 				minNode = Nodes.at(i);

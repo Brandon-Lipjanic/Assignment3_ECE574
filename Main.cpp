@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 	vector<int> signs;
 	double criticalPath = -1;
 
-	v = readFile("hls_lat_test4.c");
+	v = readFile("hls_lat_test5.c");
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
@@ -39,13 +39,13 @@ int main(int argc, char* argv[]) {
 	masterInputs = masterTranslate(inputsString);
 
 	vector<Node*> nodes;
-	nodes = populateNodes(masterModules,4);
+	nodes = populateNodes(masterModules,5);
 	ASAP(nodes);
 	ALAP(nodes);
 
 	//populate available times
 	for (int i = 0; i < nodes.size(); i++) {
-		for (int j = nodes.at(i)->ASAP_Time; j < nodes.at(i)->ALAP_Time; j++) {
+		for (int j = nodes.at(i)->ASAP_Time; j <= nodes.at(i)->ALAP_Time; j++) {
 			nodes.at(i)->availableTimes.push_back(j);
 		}
 	}
@@ -57,8 +57,8 @@ int main(int argc, char* argv[]) {
 			selfForce(nodes, typeDist);
 			PredForce(nodes);
 			SucForce(nodes);
-			//TotForce(nodes, typeDist.at(j));
-		//Schedule(nodes);
+			TotForce(nodes);
+			Schedule(nodes);
 
 	}
 
