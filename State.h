@@ -21,12 +21,14 @@ public:
 	vector<string> operationNames;
 	std::string name;
 	int number;
-	
+	vector<Node*> nodes;
+	bool flag;
 	State();
 
 
 };
 
 vector <State*> createStates(vector<Node*> nodes);
+vector <State*> createStatesNew(vector<Node*> nodes, int latency);
 
 #endif
