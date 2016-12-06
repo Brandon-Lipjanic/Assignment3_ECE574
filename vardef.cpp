@@ -32,6 +32,13 @@ vector<string> vardef(vector<vector<string> > master) {
 			if (master.at(i).at(0).compare("register") == 0) {
 				out.push_back("reg");
 			}
+			
+			else if (master.at(i).at(0).compare("variable") == 0) {
+				out.push_back("reg");
+			}
+			else if (master.at(i).at(0).compare("output") == 0) {
+				out.push_back("output reg");
+			}
 			else {
 				out.push_back(master.at(i).at(0));
 			}

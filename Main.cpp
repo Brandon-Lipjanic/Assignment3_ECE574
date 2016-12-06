@@ -28,8 +28,9 @@ int main(int argc, char* argv[]) {
 	vector<int> signs;
 	vector<State*> states;
 	double criticalPath = -1;
+	int latency = 10;
 
-	v = readFile("hls_lat_test4.c");
+	v = readFile("hls_test4.c");
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
@@ -41,7 +42,9 @@ int main(int argc, char* argv[]) {
 	masterInputs = masterTranslate(inputsString);
 
 	vector<Node*> nodes;
-	nodes = populateNodes(masterModules,4);
+
+
+	nodes = populateNodes(masterModules,latency);
 	ASAP(nodes);
 	ALAP(nodes);
 
@@ -66,12 +69,11 @@ int main(int argc, char* argv[]) {
 
 	}
 
-//	writeFile(outp, out);
 
 
-	//states = createStates(nodes);
-	//out = decipher(states, master);
-	//writeFile("output.txt", out);
+	states = createStatesNew(nodes,latency);
+	out = decipher(states, master);
+	writeFile("output.txt", out);
 	return 0;
 	
 }

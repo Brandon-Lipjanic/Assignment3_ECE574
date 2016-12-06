@@ -90,12 +90,33 @@ vector<vector<string> > masterTranslate(vector<string> v) {
 }
 
 vector<string> separator(vector<string> v, int flag) {
-	int i = 0;
+	int i, j, pos = 0;
 	vector<string> output;
 	if (flag == 0) { //takes the spaces out of original v vector
 		for (i = 0; i < v.size(); ++i) {
-			if (v[i] != "")
-				output.push_back(v[i]);
+			if (v.at(i) != ""){
+				if (v.at(i).find("if") != string::npos) {
+					continue;
+				}
+				else if (v.at(i).find("else") != string::npos) {
+					continue;
+				}
+				else if (v.at(i).find("}") != string::npos) {
+					continue;
+				}
+				else if (v.at(i).find("{") != string::npos) {
+					continue;
+				}
+				else{
+					if (v.at(i).find("\t") != string::npos) {
+						pos = v.at(i).find("\t");
+						v.at(i).replace(pos, 1, "");
+					}
+					if (v.at(i) != "" && v.at(i) != "   ") {
+						output.push_back(v.at(i));
+					}
+				}
+			}
 		}
 	}
 	else if (flag == 1) { //gets the module strings only
@@ -166,7 +187,7 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 	temp.append(":0] NextState;");
 	master.push_back(temp);
 	master.push_back("");
-	master.push_back("	parameter Wait = 0;");
+	master.push_back("	parameter Wait = 0,");
 	temp = "			Final = ";
 	temp.append(to_string(max));
 	temp.append(";");
@@ -207,11 +228,12 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 
 			master.push_back("			end");
 		}
-		else if (states.at(i)->number == max) { //Final State
+		else if (states.at(i)->name == "Final") { //Final State
 			master.push_back("			Final: begin");
 			master.push_back("				Done <= 1;");
 			master.push_back("				NextState <= Wait;"); //This may not be correct
 			master.push_back("			end");
+			master.push_back("		endcase");
 		}
 	}
 	master.push_back("	end");
@@ -222,7 +244,7 @@ vector<string> decipher(vector<State*> states, vector<vector<string> > v) {
 	master.push_back("		if (Rst) State <= Wait;");
 	master.push_back("		else State <= NextState;");
 	master.push_back("	end");
-	master.push_back("end");
+	master.push_back("endmodule");
 
 	return master;
 }
