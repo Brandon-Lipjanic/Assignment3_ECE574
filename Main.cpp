@@ -41,26 +41,28 @@ int main(int argc, char* argv[]) {
 	masterInputs = masterTranslate(inputsString);
 
 	vector<Node*> nodes;
-	nodes = populateNodes(masterModules,3);
+	nodes = populateNodes(masterModules,4);
 	ASAP(nodes);
 	ALAP(nodes);
 
-	//populate available times
-	for (int i = 0; i < nodes.size(); i++) {
-		for (int j = nodes.at(i)->ASAP_Time; j <= nodes.at(i)->ALAP_Time; j++) {
-			nodes.at(i)->availableTimes.push_back(j);
-		}
-	}
+
 
 	for (int i = 0; i < nodes.size(); i++) {
+		//populate available times
+		for (int k = 0; k < nodes.size(); k++) {
+			nodes.at(k)->availableTimes.clear();
+			for (int j = nodes.at(k)->ASAP_Time; j <= nodes.at(k)->ALAP_Time; j++) {
+				nodes.at(k)->availableTimes.push_back(j);
+			}
+		}
 		detWidth(nodes);
 		detProb(nodes);
 		typeDist = detTypeDist(nodes);
-			selfForce(nodes, typeDist);
-			PredForce(nodes);
-			SucForce(nodes);
-			TotForce(nodes);
-			Schedule(nodes);
+		selfForce(nodes, typeDist);
+		PredForce(nodes);
+		SucForce(nodes);
+		TotForce(nodes);
+		Schedule(nodes);
 
 	}
 

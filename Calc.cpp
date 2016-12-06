@@ -10,8 +10,9 @@ void detWidth(vector<Node*> Nodes) {
 }
 void detProb(vector<Node*> Nodes) {
 	for (int i = 0; i < Nodes.size(); i++) {
+		Nodes.at(i)->probability.clear();
 		for (int j = 0; j < Nodes.at(i)->latency; j++) {
-
+			
 			if (j >= Nodes.at(i)->ASAP_Time && j <= Nodes.at(i)->ALAP_Time) {
 				Nodes.at(i)->probability.push_back( 1.0 / (Nodes.at(i)->width));
 			}

@@ -21,7 +21,7 @@ void selfForce(vector<Node*> Nodes, vector<vector<double>> typeDef) {
 					Nodes.at(i)->selfForce.at(j) = Nodes.at(i)->selfForce.at(j) + typeDef.at(Nodes.at(i)->operationType).at(k)*(0 - Nodes.at(i)->probability.at(k));
 				}
 			}
-			if (Nodes.at(i)->selfForce.at(j) < .000000001 && Nodes.at(i)->selfForce.at(j)> -.00000001) {
+			if (Nodes.at(i)->selfForce.at(j) < .0000000001 && Nodes.at(i)->selfForce.at(j)> -.0000000001) {
 				Nodes.at(i)->selfForce.at(j) = 0;
 			}
 		}
@@ -195,17 +195,17 @@ void Schedule(vector<Node*> Nodes) {
 	double minTemp = 1000000;
 	Node* minNode = NULL;
 	int timeSlot = -1;
-
-
+	int i = 0, j = 0, x = 0;
 
 
 	//Find which node has the minimim total force and what time slot it occurs in.
-	for (int i = 0; i < Nodes.size(); i++) {
-		for (int j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
+	for (i = 0; i < Nodes.size(); i++) {
+		for (j = 0; j < Nodes.at(i)->availableTimes.size(); j++) {
 			if (Nodes.at(i)->totalForce.at(j) < minTemp && Nodes.at(i)->schedule == -1) {
 				minTemp = Nodes.at(i)->totalForce.at(j);
 				minNode = Nodes.at(i);
 				timeSlot = Nodes.at(i)->availableTimes.at(j);
+				x = i;
 			}
 		}
 	}
@@ -214,5 +214,26 @@ void Schedule(vector<Node*> Nodes) {
 		minNode->ALAP_Time = timeSlot;
 		minNode->ASAP_Time = timeSlot;	
 		minNode->schedule = timeSlot;
+		////////////////////////////////////////////////////////////////////////////////////
+		//for (j = 0; j < Nodes.at(x)->predNodes.size(); j++) {
+		//	for (i = 0; i < Nodes.at(x)->predNodes.at(j)->availableTimes.size(); i++) {
+		//		//remove available times which exist in prenode which are scheduled
+		//		if (Nodes.at(x)->predNodes.at(j)->availableTimes.at(Nodes.at(x)->predNodes.at(j)->availableTimes.size() - 1) == timeSlot) {
+		//			Nodes.at(x)->predNodes.at(j)->availableTimes.pop_back();
+		//			Nodes.at(x)->predNodes.at(j)->ALAP_Time = Nodes.at(x)->predNodes.at(j)->ALAP_Time - 1;
+		//		}
+		//	}
+		//}
+		//for (j = 0; j < Nodes.at(x)->succNodes.size(); j++) {
+		//	for (i = 0; i < Nodes.at(x)->succNodes.at(j)->availableTimes.size(); i++) {
+		//		//remove available times which exist in prenode which are scheduled
+		//		if (Nodes.at(x)->succNodes.at(j)->availableTimes.at(Nodes.at(x)->succNodes.at(j)->availableTimes.size() - 1) == timeSlot) {
+		//			reverse(Nodes.at(x)->succNodes.at(j)->availableTimes.begin(), Nodes.at(x)->succNodes.at(j)->availableTimes.end());
+		//			Nodes.at(x)->succNodes.at(j)->availableTimes.pop_back();
+		//			reverse(Nodes.at(x)->succNodes.at(j)->availableTimes.begin(), Nodes.at(x)->succNodes.at(j)->availableTimes.end());
+		//			Nodes.at(x)->predNodes.at(j)->ASAP_Time = Nodes.at(x)->predNodes.at(j)->ASAP_Time - 1;
+		//		}
+		//	}
+		//}
 	}
 }
