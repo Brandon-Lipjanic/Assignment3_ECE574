@@ -14,25 +14,25 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 	
-//	if (argc != 4) {
-//		return 0;
-//	}
+	if (argc != 4) {
+		return 0;
+	}
 	int i, j;
 	vector <Node*> Nodes;
 	vector<vector<double>> typeDist;
-	
-//	int latency = stoi(argv[2]);
-//	string outp = argv[3];
+
+	int latency = stoi(argv[2]);
+
 	vector<string> v, v1, modulesString, inputsString, out;
 	vector<vector<string> > master, masterModules, masterInputs;
 	vector<int> signs;
 	vector<State*> states;
 	double criticalPath = -1;
-	int latency = 10;
 
-	v = readFile("hls_test1.c");
 
-	//v = readFile(argv[1]);
+
+
+	v = readFile(argv[1]);
 
 	v = separator(v, 0);
 	modulesString = separator(v, 1);
@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 
 	states = createStatesNew(nodes,latency);
 	out = decipher(states, master);
-	writeFile("output.txt", out);
+	writeFile(argv[3], out);
 	return 0;
 	
 }
