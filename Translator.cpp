@@ -29,7 +29,8 @@ vector<string> getLines(string str) {
 		token = str.substr(0, pos);
 		//cout << token << endl;
 		str.erase(0, pos + delimiter.length());
-		v.push_back(token);
+		if(token != "")
+			v.push_back(token);
 	}
 	if (str != "") {
 		v.push_back(str);
@@ -90,12 +91,33 @@ vector<vector<string> > masterTranslate(vector<string> v) {
 }
 
 vector<string> separator(vector<string> v, int flag) {
-	int i = 0;
+	int i, j, pos = 0;
 	vector<string> output;
 	if (flag == 0) { //takes the spaces out of original v vector
 		for (i = 0; i < v.size(); ++i) {
-			if (v[i] != "")
-				output.push_back(v[i]);
+			if (v.at(i) != ""){
+				if (v.at(i).find("if") != string::npos) {
+					continue;
+				}
+				else if (v.at(i).find("else") != string::npos) {
+					continue;
+				}
+				else if (v.at(i).find("}") != string::npos) {
+					continue;
+				}
+				else if (v.at(i).find("{") != string::npos) {
+					continue;
+				}
+				else{
+					if (v.at(i).find("\t") != string::npos) {
+						pos = v.at(i).find("\t");
+						v.at(i).replace(pos, 1, "");
+					}
+					if (v.at(i) != "" && v.at(i) != "   ") {
+						output.push_back(v.at(i));
+					}
+				}
+			}
 		}
 	}
 	else if (flag == 1) { //gets the module strings only

@@ -31,6 +31,7 @@ int main(int argc, char* argv[]) {
 	int latency = 10;
 
 	v = readFile("hls_test1.c");
+
 	//v = readFile(argv[1]);
 
 	v = separator(v, 0);
@@ -43,27 +44,29 @@ int main(int argc, char* argv[]) {
 
 	vector<Node*> nodes;
 
-	nodes = populateNodes(masterModules,latency);
 
+	nodes = populateNodes(masterModules,latency);
 	ASAP(nodes);
 	ALAP(nodes);
 
-	//populate available times
-	for (int i = 0; i < nodes.size(); i++) {
-		for (int j = nodes.at(i)->ASAP_Time; j <= nodes.at(i)->ALAP_Time; j++) {
-			nodes.at(i)->availableTimes.push_back(j);
-		}
-	}
+
 
 	for (int i = 0; i < nodes.size(); i++) {
+		//populate available times
+		for (int k = 0; k < nodes.size(); k++) {
+			nodes.at(k)->availableTimes.clear();
+			for (int j = nodes.at(k)->ASAP_Time; j <= nodes.at(k)->ALAP_Time; j++) {
+				nodes.at(k)->availableTimes.push_back(j);
+			}
+		}
 		detWidth(nodes);
 		detProb(nodes);
 		typeDist = detTypeDist(nodes);
-			selfForce(nodes, typeDist);
-			PredForce(nodes);
-			SucForce(nodes);
-			TotForce(nodes);
-			Schedule(nodes);
+		selfForce(nodes, typeDist);
+		PredForce(nodes);
+		SucForce(nodes);
+		TotForce(nodes);
+		Schedule(nodes);
 
 	}
 
