@@ -29,7 +29,8 @@ vector<string> getLines(string str) {
 		token = str.substr(0, pos);
 		//cout << token << endl;
 		str.erase(0, pos + delimiter.length());
-		v.push_back(token);
+		if(token != "")
+			v.push_back(token);
 	}
 	if (str != "") {
 		v.push_back(str);
